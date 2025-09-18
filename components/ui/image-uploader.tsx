@@ -1,0 +1,39 @@
+// components/avatar-uploader.tsx
+"use client";
+
+import { CldUploadWidget } from "next-cloudinary";
+
+interface uploaderProps {
+  onUploadSuccess: (url: string) => void;
+}
+
+export function ImageUploader({ onUploadSuccess }: uploaderProps) {
+  return (
+    <CldUploadWidget
+      uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'ml_default'}
+      signatureEndpoint="/api/sign-cloudinary-params"
+      onSuccess={(result) => {
+        console.log("Upload successful! Result:", result);
+        if (typeof result.info === "object" && "secure_url" in result.info) {
+          onUploadSuccess(result.info.secure_url);
+        }
+      }}
+      options={{
+        maxFiles: 10,
+        resourceType: "image",
+      }}
+    >
+      {({ open }) => {
+        return (
+          <button
+            type="button"
+            onClick={() => open()}
+            className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Upload Image
+          </button>
+        );
+      }}
+    </CldUploadWidget>
+  );
+}

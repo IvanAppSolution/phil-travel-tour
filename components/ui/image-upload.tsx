@@ -5,6 +5,7 @@ import { UploadButton, UploadDropzone } from "@/lib/upload-thing";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { resizeFile300 } from "@/lib/imageResize";
 
 interface MultipleImageUploadProps {
   onImagesUploaded?: (urls: string[]) => void;  
@@ -175,6 +176,7 @@ export function SingleImageUploadButton({
   const [images, setImages] = useState<string[]>(defaultImages);
 
   const handleUploadComplete = (res: { url: string }[]) => {
+    console.log("Upload complete:", res);
     const urls = res.map((file) => file.url);
     setImages((prevImages) => [...prevImages, ...urls]);
     if (onImagesUploaded) {

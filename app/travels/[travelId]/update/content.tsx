@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { updateTravel } from "@/lib/actions/travel";
 import { cn } from "@/lib/utils";
-import { UploadButton } from "@/lib/upload-thing";
+// import { UploadButton } from "@/lib/upload-thing";
 import { use, useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import { MultipleImageUploadButton, SingleImageUploadButton } from "@/components/ui/image-upload";
@@ -13,6 +13,8 @@ import { set } from "zod";
 import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ImageUploader } from "@/components/ui/image-uploader";
+// import { uploadImage } from "@/lib/actions/uploadImage";
 
 
 export default function Content({ travel }: {travel: Travel | null}) {
@@ -20,8 +22,9 @@ export default function Content({ travel }: {travel: Travel | null}) {
   const [imageUrl, setImageUrl] = useState<string[]>([]);
   const [coverImagesUrl, setCoverImagesUrl] = useState<string[]>([]);
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
-
-
+  
+  // // In your component's render method:
+  // <input type="file" accept="image/*" onChange={handleImageUpload} />
   
   const handleImageUploaded = (urls: string[]) => {
     setImageUrl(urls);
@@ -31,8 +34,15 @@ export default function Content({ travel }: {travel: Travel | null}) {
     setCoverImagesUrl(urls);
   };
 
-  const handleImagesUploaded = (urls: string[]) => {
-    setImagesUrl(urls);
+  const handleImagesUploaded = (url: string) => {
+    console.log("handleImagesUploaded Images uploaded:", url);
+    setImagesUrl((prevImages) => [...prevImages, url]);
+  };
+
+  const handleRemoveImage = (indexToRemove: number) => {
+    setImagesUrl((prevImages) => 
+      prevImages.filter((_, index) => index !== indexToRemove)
+    );    
   };
 
   if (!travel) {
@@ -145,6 +155,37 @@ export default function Content({ travel }: {travel: Travel | null}) {
                 defaultValue={travel.pricePerPerson || ''}              
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1"> upload Photos to Cloudinary (up to 10 Photos)</label>
+              {imagesUrl.length > 0 && (
+                       <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                         {imagesUrl.map((imageUrl, index) => (
+                           <div key={index} className="relative group">
+                             <Image
+                               src={imageUrl || ''}
+                               alt={`Uploaded image ${index + 1}`}
+                               width={300}
+                               height={300}
+                               className="rounded-lg object-cover w-full h-48"
+                             />
+                             <Button
+                             variant="destructive"
+                             size="icon"
+                             className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                             onClick={() => handleRemoveImage(index)}
+                           >
+                             <X className="h-4 w-4" />
+                           </Button>
+                           </div>
+                         ))}
+                       </div>
+                     )}
+
+              <div className="flex items-center justify-center gap-x-4">
+                <ImageUploader onUploadSuccess={handleImagesUploaded} />
+              </div>       
+            </div>
              
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1"> Product Photo (1 Photo)</label>
@@ -156,20 +197,20 @@ export default function Content({ travel }: {travel: Travel | null}) {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1"> Cover Photos (up to 10 Photos)</label>
-              <MultipleImageUploadButton
+              {/* <MultipleImageUploadButton
                 onImagesUploaded={handleCoverImagesUploaded}
                 maxFiles={10}
                 defaultImages={coverImagesUrl || []}
-              />
+              /> */}
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1"> Travel Photos (up to 10 Photos)</label>
-              <MultipleImageUploadButton
+              {/* <MultipleImageUploadButton
                 onImagesUploaded={handleImagesUploaded}
                 maxFiles={10}
                 defaultImages={imagesUrl || []}
-              />
+              /> */}
             </div>
 
 
