@@ -14,7 +14,7 @@ import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploader } from "@/components/ui/image-uploader";
-import { uploadImage } from "@/lib/actions/uploadImage";
+// import { uploadImage } from "@/lib/actions/uploadImage";
 
 
 export default function Content({ travel }: {travel: Travel | null}) {
