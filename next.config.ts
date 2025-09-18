@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       {
         hostname: "utfs.io",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

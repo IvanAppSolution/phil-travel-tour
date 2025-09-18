@@ -17,7 +17,7 @@ export default async function UpdateTravel({
   } 
 
   const { travelId } = await params;
-  console.log('UpdateTravel-travelId: ', travelId);
+  // console.log('UpdateTravel-travelId: ', travelId);
   const travel = await prisma.travel.findFirst({
       where: { id: travelId },
       include: {

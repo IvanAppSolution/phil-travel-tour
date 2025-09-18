@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { UploadButton } from "@/lib/upload-thing";
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import { MultipleImageUploadButton } from "@/components/ui/multiple-image-upload";
+import { MultipleImageUploadButton } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
