@@ -5,7 +5,7 @@ import { UploadButton, UploadDropzone } from "@/lib/upload-thing";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { resizeFile300 } from "@/lib/imageResize";
+// import { resizeFile300 } from "@/lib/imageResize";
 
 interface MultipleImageUploadProps {
   onImagesUploaded?: (urls: string[]) => void;  

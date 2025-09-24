@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import Content from "./content";
+import DetailContent from "./detail-content";
 import { prisma } from "@/lib/prisma";
 import { Session } from "next-auth";
 
@@ -27,5 +27,5 @@ export default async function TravelDetail({
     },
   });
 
-  return <Content travelPromise={travelPromise} user={session.user} />;
+  return <DetailContent travelPromise={travelPromise} user={session.user} />;
 }

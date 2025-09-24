@@ -1,6 +1,6 @@
 import { auth, type Session, type User } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import ClientContent from "./client-content";
+import Content from "./content";
 
 
 export default async function TripsPage() {
@@ -8,6 +8,6 @@ export default async function TripsPage() {
   const travelsPromise = prisma.travel.findMany();
  
   return (
-    <ClientContent travelsPromise={travelsPromise} sessionPromise={sessionPromise as Promise<Session | null>} />
+    <Content travelsPromise={travelsPromise} sessionPromise={sessionPromise as Promise<Session | null>} />
   );
 }

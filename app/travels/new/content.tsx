@@ -10,20 +10,32 @@ import Image from "next/image";
 import { MultipleImageUploadButton } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { X } from "lucide-react";
+import { ImageUploader } from "@/components/ui/image-uploader";
 
 export default function Content() {
   const [isPending, startTransition] = useTransition();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [coverImagesUrl, setCoverImagesUrl] = useState<string[]>([]);
-  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
 
-
-  const handleCoverImagesUploaded = (urls: string[]) => {
-    setCoverImagesUrl(urls);
+  const handleImageUploaded = (url: string) => {
+    setImageUrl(url);
   };
 
-  const handleImagesUploaded = (urls: string[]) => {
-    setImagesUrl(urls);
+  const handleCoverImagesUploaded = (url: string) => {
+    setCoverImagesUrl((prevImages) => [...prevImages, url]);
+  };
+
+
+  //Remove image handlers
+  const handleRemoveImage = () => {
+    setImageUrl("");    
+  };
+
+  const handleRemoveCoverImage = (indexToRemove: number) => {
+    setCoverImagesUrl((prevImages) => 
+      prevImages.filter((_, index) => index !== indexToRemove)
+    );    
   };
 
   return (
@@ -40,9 +52,7 @@ export default function Content() {
               if (coverImagesUrl.length > 0) {
                 formData.append("coverImagesUrl", coverImagesUrl.join(","));
               }
-              if (imagesUrl.length > 0) {
-                formData.append("imagesUrl", imagesUrl.join(","));
-              }
+              
               startTransition(() => {
                 createTravel(formData);
               });
@@ -113,46 +123,58 @@ export default function Content() {
             </div>
              
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1"> Product Photo (1 Photo)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1"> Product Photo (1 Photo) <ImageUploader onUploadSuccess={handleImageUploaded} /></label>
+            {imageUrl && (
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    
+                    <div className="relative group">
+                      <Image
+                        src={imageUrl || ''}
+                        alt={`imageUrl`}
+                        width={300}
+                        height={300}
+                        className="rounded-lg object-cover w-full h-48"
+                      />
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => handleRemoveImage()}
+                      >
+                      <X className="h-4 w-4" />
+                    </Button>
+                    </div>
+                  
+                </div>
+              )} 
+          </div>
 
-              {imageUrl && (
-                <Image
-                  src={imageUrl}
-                  alt="Trip Preview"
-                  className="mb-4 rounded-md max-h-48 object-cover"
-                  width={300}
-                  height={100}
-                />
-              )}
-              { imageUrl === null ? <UploadButton
-                className="justify-items-start"
-                endpoint="multipleImageUploader"
-                onClientUploadComplete={(res) => {
-                  if (res && res[0].ufsUrl) {
-                    setImageUrl(res[0].ufsUrl);
-                  }
-                }}
-                onUploadError={(error: Error) => {
-                  console.error("Upload error: ", error);
-                }}
-              /> : false }
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1"> Cover Photos (up to 10 Photos)</label>
-              <MultipleImageUploadButton
-                onImagesUploaded={handleCoverImagesUploaded}
-                maxFiles={10}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1"> Travel Photos (up to 10 Photos)</label>
-              <MultipleImageUploadButton
-                onImagesUploaded={handleImagesUploaded}
-                maxFiles={10}
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1"> Cover Photos (up to 10 Photos)  <ImageUploader onUploadSuccess={handleCoverImagesUploaded} /></label>
+            {coverImagesUrl.length > 0 && (
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {coverImagesUrl.map((imageUrl, index) => (
+                    <div className="relative group">
+                      <Image
+                        src={imageUrl || ''}
+                        alt={`imageProductUrl`}
+                        width={300}
+                        height={300}
+                        className="rounded-lg object-cover w-full h-48"
+                      />
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => handleRemoveCoverImage(index)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                    </div>
+                  ))}
+                </div>
+              )} 
+          </div>
 
 
             <Button type="submit" disabled={isPending} className="w-full">
