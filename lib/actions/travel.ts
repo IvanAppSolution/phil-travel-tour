@@ -16,7 +16,6 @@ export async function createTravel(formData: FormData) {
   const description = formData.get("description")?.toString();
   const imageUrl = formData.get("imageUrl")?.toString();
   const coverImagesUrl = formData.get("coverImagesUrl")?.toString().split(",") || [];
-  const imagesUrl = formData.get("imagesUrl")?.toString().split(",") || [];
   const pricePerPerson = Number(formData.get("pricePerPerson")?.toString() || 0);
   const noOfTravelDays = formData.get("noOfTravelDays")?.toString();
 
@@ -39,7 +38,6 @@ export async function createTravel(formData: FormData) {
       shortDescription,
       imageUrl,
       coverImagesUrl,
-      imagesUrl,
       noOfTravelDays,
       pricePerPerson,
       createdById: session.user.id,
@@ -62,7 +60,6 @@ export async function updateTravel(formData: FormData) {
   const description = formData.get("description")?.toString();
   const imageUrl = formData.get("imageUrl")?.toString();
   const coverImagesUrl = formData.get("coverImagesUrl")?.toString().split(",") || [];
-  const imagesUrl = formData.get("imagesUrl")?.toString().split(",") || [];
   const pricePerPerson = Number(formData.get("pricePerPerson")?.toString() || 0);
   const noOfTravelDays = formData.get("noOfTravelDays")?.toString();
 
@@ -85,7 +82,6 @@ export async function updateTravel(formData: FormData) {
       shortDescription,
       imageUrl,
       coverImagesUrl,
-      imagesUrl,
       noOfTravelDays,
       pricePerPerson,
       createdById: session.user.id,

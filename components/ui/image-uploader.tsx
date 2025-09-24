@@ -19,8 +19,10 @@ export function ImageUploader({ onUploadSuccess }: uploaderProps) {
         }
       }}
       options={{
-        maxFiles: 10,
+        maxFiles: 20,
         resourceType: "image",
+        sources: ["local"],
+        folder: "travel-asia",
       }}
     >
       {({ open }) => {

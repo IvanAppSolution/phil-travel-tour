@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MultipleImageUpload } from "@/components/ui/multiple-image-upload";
+// import { MultipleImageUpload } from "@/components/ui/multiple-image-upload";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function UploadDemo() {
@@ -22,10 +22,10 @@ export default function UploadDemo() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <MultipleImageUpload
+          {/* <MultipleImageUpload
             onImagesUploaded={handleImagesUploaded}
             maxFiles={10}
-          />
+          /> */}
 
           {uploadedUrls.length > 0 && (
             <div className="mt-6">

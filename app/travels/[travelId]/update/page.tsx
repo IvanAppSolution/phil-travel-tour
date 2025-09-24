@@ -1,6 +1,6 @@
 import { auth, Session } from "@/auth";
 import { redirect } from "next/navigation";
-import Content from "./content";
+import UpdateContent from "./update-content";
 import { prisma } from "@/lib/prisma";
 import { Travel } from "@/prisma/generated/prisma";
 import { Suspense } from "react";
@@ -31,7 +31,7 @@ export default async function UpdateTravel({
 
   return (
     <Suspense fallback={<div>Loading page...</div>}>
-      <Content travel={travel} />
+      <UpdateContent travel={travel} />
     </Suspense>
   );
 }

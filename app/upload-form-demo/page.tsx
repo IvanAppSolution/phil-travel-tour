@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { MultipleImageUpload } from "@/components/ui/multiple-image-upload";
+// import { MultipleImageUpload } from "@/components/ui/multiple-image-upload";
 
 const formSchema = z.object({
   title: z.string().min(2, {
