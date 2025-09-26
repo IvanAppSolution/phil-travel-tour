@@ -2,7 +2,7 @@
 
 import { Location, Travel, Trip } from "@/prisma/generated/prisma";
 import Image from "next/image";
-import { Calendar, MapPin, Pen, XIcon } from "lucide-react";
+import { Calendar, MapPin, Pen, XIcon, MapPinPlus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +10,6 @@ import { use, useEffect, useRef, useState } from "react";
 import Map from "./map";
 import SortableItinerary from "./sortable-itinerary";
 import { User } from "@/auth"
-// import GalleryDialog from "@/components/ui/gallery-dialog";
 import { RenderImageContext, RenderImageProps, RowsPhotoAlbum } from "react-photo-album";
 import "react-photo-album/rows.css";
 import type { Photo } from "react-photo-album";
@@ -35,9 +34,6 @@ interface ContentProps {
 
 type GalleryPhoto = {
   original: string;
-  // thumbnail: string;
-  // width: number;
-  // height: number;
 };
 
 
@@ -106,22 +102,16 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
 
   function initGalleryPhotos() {
     if (travel && travel.coverImagesUrl.length) {
-        
-  
-
       const photos = travel.coverImagesUrl.map((url, i) => {
-        // const imageId = url.split("/").pop()?.split(".")[0] || "";
-        // const thumbnail = cld.image(imageId)
-        //                     .quality('auto')
-        //                     .format('auto')
-        //                     .resize(scale().width(100))
-        //                     .toURL();
-        // let width = 1920;
-        // let height = 1080; 
-
-        return { original: url };
+        const imageId = url.split("/").pop()?.split(".")[0] || "";
+        const fullSizeUrl = cld.image(imageId)
+                            .quality('auto')
+                            .format('auto')
+                            // .resize(scale().width(100))
+                            .toURL();
+        return { original: fullSizeUrl };
       });
-      console.log("gallery photos: ", photos);
+      // console.log("gallery photos: ", photos);
       setGalleryPhotos(photos);
     }
 
@@ -130,12 +120,12 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
   
   function renderNextImage({ alt = "", title, sizes }: RenderImageProps, { photo, width, height, index }: RenderImageContext) {
     // "https://res.cloudinary.com/deji2i8fj/image/upload/v1758254274/moalboal-sardine-run-700-4_y4p4uj.jpg",
-    const imageId = photo.src.split("/").pop()?.split(".")[0] || "";
-    const imgSrc = cld.image(imageId)
-                            .quality('auto')
-                            .format('auto')
-                            // .resize(scale().width(400))
-                            .toURL();
+    // const imageId = photo.src.split("/").pop()?.split(".")[0] || "";        
+    // const imgSrc = cld.image(imageId)
+    //                         .quality('auto')
+    //                         .format('auto')
+    //                         .resize(scale().width(400))
+    //                         .toURL();
     // console.log("sizes: ", sizes);      
     // console.log("imgSrc: ", imgSrc);                     
     return (
@@ -147,15 +137,15 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
         }}
       >
         
-        <img width={width} height={height} src={imgSrc} alt={title} loading="lazy" onClick={()=>onClickHandler(index)} />                      
-        {/* <Image
+        {/* <img style={{width:"100%", height:"100%", position:"absolute", inset:"0"}} src={imgSrc} alt={title} loading="lazy" onClick={()=>onClickHandler(index)} />                       */}
+        <Image
           fill
           src={photo}
           alt={alt}
           title={title}
           sizes={sizes}
           placeholder={"blurDataURL" in photo ? "blur" : undefined}
-        /> */}
+        />
       </div>
     );
   }
@@ -164,7 +154,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
     <>
     <div className="container mx-auto px-4 py-8 space-y-8">
       <div className="w-full h-80 md:h-80 overflow-hidden rounded-xl shadow-lg relative">
-          {travel && travel.coverImagesUrl.length && travel?.coverImagesUrl.length ? (
+          {travel && travel.coverImagesUrl && travel?.coverImagesUrl.length ? (
             <div className="w-full grid grid-cols-2 gap-2 relative  ">
                 <div className="group relative flex h-80  items-end overflow-hidden  bg-gray-100 shadow-lg">
                   <Image
@@ -194,7 +184,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
                   }
                  )}   
                 </div>
-                {galleryPhotos.length ? <ImageGallery  items={galleryPhotos} ref={imageGalleryRef} lazyLoad={true} showThumbnails={false} startIndex={slideIndex} /> : null}
+                {galleryPhotos.length ? <ImageGallery  items={galleryPhotos} ref={imageGalleryRef} lazyLoad={true} showThumbnails={false} startIndex={slideIndex} showPlayButton={false} /> : null}
             </div>
           ) : (
             <div className="flex items-center justify-center h-full bg-gray-200 rounded-t-lg">
@@ -238,17 +228,18 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
 
               
                 <div className="my-6">
-                  <h3 className="text-lg font-medium mb-2">Included Trips</h3>
+                  <h3 className="text-lg font-medium mb-2">Included Trips
+                  { user && user.role === "admin" ? <Link className="" href={`/trips/0?travelId=${travel.id}`}><Button className="ml-3 w-24" size="icon"  variant="outline"><MapPinPlus className="h-5 w-5" />Add Trip </Button></Link> : false }
+                  </h3>
                   <ul className="list-disc pl-5">
-                    {travel.trips.map(trip => (
+                    {travel && travel.trips.map(trip => (
                       <li key={trip.id} className="mb-2">
-                        <span className="font-medium">{trip.title}</span>  
-                        <div>
-                          
+                        <span className="font-medium inline-flex items-center justify-center">{trip.title}&nbsp;{ user && user.role === "admin" ? <Link className="" href={`/trips/${trip.id}?travelId=${travel.id}`}> <Pen className="h-4 w-4" /></Link> : false }</span>  
+                        <div>                          
                         <div className="flex items-start text-sm text-gray-500 mt-1">  
                           <MapPin className="h-5 w-5 mr-1 text-gray-500" />                         
                           {trip.locations.length && trip.locations.map((loc) => (
-                            <span key={loc.id}> {loc.locationTitle}, </span>
+                            <span key={loc.id}>{loc.locationTitle},</span>
                           )) }
                         </div>
                         </div>
@@ -274,9 +265,6 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
           
           {/* ITINERARY */}
           <TabsContent value="itinerary" className="space-y-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-semibold"> Full Itinerary</h2>
-            </div>
 
             {travel.trips.length === 0 ? (
               <div className="text-center p-4">
@@ -285,15 +273,30 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
             ) : (
               <div>
                 {travel.trips.map((trip) => (
-                  <div key={trip.id} className="mb-6">
-                    <h3 className="text-xl font-medium mb-2">{trip.title}</h3>
-                    {trip.locations.length === 0 ? (
-                      <div className="text-center p-4">
-                        <p>No locations available for this trip.</p>
+                  <div key={trip.id} className="grid grid-cols-4 gap-2 h-64 mb-8 p-4">                    
+                      <div className="col-span-2">
+                        <h3 className="text-xl font-medium mb-2">{trip.title}</h3>
+                        <p className="text-gray-500 mb-4">{trip.description}</p>
                       </div>
-                    ) : (
-                      <SortableItinerary locations={trip.locations} tripId={trip.id} />
-                    )}
+                      <div className="h-full w-full relative overflow-hidden rounded-lg shadow">
+                        {trip.imageUrl ? (
+                          <Image
+                            src={trip.imageUrl}
+                            alt={trip.title}
+                            className="object-cover"
+                            fill
+                            // width={200}
+                            // height={150}
+                          />
+                        ) : false }
+                      </div>
+                      <div className="h-full w-full rounded-lg overflow-hidden shadow">
+                        {trip.locations.length > 0 ? (
+                            <Map itineraries={trip.locations} />
+                            // <SortableItinerary locations={trip.locations} tripId={trip.id} />
+                        )
+                        : false }
+                      </div>
                   </div>
                 ))}
               </div>
@@ -332,10 +335,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
               </span>
             </DialogClose>
           </DialogHeader>
-          
-
-          <ScrollArea className="h-7/12 w-full rounded-md border mb-4 border-none">
-            
+          <ScrollArea className="h-9/12 w-full rounded-md border mb-4 border-none">            
               <RowsPhotoAlbum
                   photos={coverPhotos}
                   render={{ image: renderNextImage }}
@@ -345,7 +345,6 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
                     sizes: [{ viewport: "(max-width: 1200px)", size: "calc(100vw - 32px)" }],
                   }}
                 />
-              
           </ScrollArea>
         </DialogContent>
       </Dialog>

@@ -89,19 +89,27 @@ model Order {
 }
 
 model Travel {
-  id               String   @id @default(cuid())
-  title            String
-  subTitle         String?  @db.VarChar(255)
-  description      String?  @db.Text
-  shortDescription String?  @db.VarChar(255)
-  noOfTravelDays   String?
-  imageUrl         String?
-  coverImagesUrl   String[] @default([])
-  pricePerPerson   Float?
-  createdBy        User     @relation(fields: [createdById], references: [id])
-  createdById      String
-  orders           Order[]
-  trips            Trip[]
+  id                  String   @id @default(cuid())
+  title               String
+  subTitle            String?  @db.VarChar(255)
+  description         String?  @db.Text
+  shortDescription    String?  @db.VarChar(255)
+  noOfTravelDays      String?
+  imageUrl            String?
+  coverImagesUrl      String[] @default([])
+  pricePerPerson      Float?
+  priceDescription    String?  @db.VarChar(255)
+  discountPrice       Float?
+  discountPercent     Int?
+  discountDescription String?  @db.VarChar(255)
+  bookingNote         String?  @db.Text
+  amenities           String[] @default([]) // Array of amenities  
+  isPublished         Boolean  @default(false)
+  isFeatured          Boolean  @default(false)
+  createdBy           User     @relation(fields: [createdById], references: [id])
+  createdById         String
+  orders              Order[]
+  trips               Trip[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

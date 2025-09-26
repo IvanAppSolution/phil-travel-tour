@@ -7407,10 +7407,14 @@ export namespace Prisma {
 
   export type TravelAvgAggregateOutputType = {
     pricePerPerson: number | null
+    discountPrice: number | null
+    discountPercent: number | null
   }
 
   export type TravelSumAggregateOutputType = {
     pricePerPerson: number | null
+    discountPrice: number | null
+    discountPercent: number | null
   }
 
   export type TravelMinAggregateOutputType = {
@@ -7422,6 +7426,13 @@ export namespace Prisma {
     noOfTravelDays: string | null
     imageUrl: string | null
     pricePerPerson: number | null
+    priceDescription: string | null
+    discountPrice: number | null
+    discountPercent: number | null
+    discountDescription: string | null
+    bookingNote: string | null
+    isPublished: boolean | null
+    isFeatured: boolean | null
     createdById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7436,6 +7447,13 @@ export namespace Prisma {
     noOfTravelDays: string | null
     imageUrl: string | null
     pricePerPerson: number | null
+    priceDescription: string | null
+    discountPrice: number | null
+    discountPercent: number | null
+    discountDescription: string | null
+    bookingNote: string | null
+    isPublished: boolean | null
+    isFeatured: boolean | null
     createdById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7451,6 +7469,14 @@ export namespace Prisma {
     imageUrl: number
     coverImagesUrl: number
     pricePerPerson: number
+    priceDescription: number
+    discountPrice: number
+    discountPercent: number
+    discountDescription: number
+    bookingNote: number
+    amenities: number
+    isPublished: number
+    isFeatured: number
     createdById: number
     createdAt: number
     updatedAt: number
@@ -7460,10 +7486,14 @@ export namespace Prisma {
 
   export type TravelAvgAggregateInputType = {
     pricePerPerson?: true
+    discountPrice?: true
+    discountPercent?: true
   }
 
   export type TravelSumAggregateInputType = {
     pricePerPerson?: true
+    discountPrice?: true
+    discountPercent?: true
   }
 
   export type TravelMinAggregateInputType = {
@@ -7475,6 +7505,13 @@ export namespace Prisma {
     noOfTravelDays?: true
     imageUrl?: true
     pricePerPerson?: true
+    priceDescription?: true
+    discountPrice?: true
+    discountPercent?: true
+    discountDescription?: true
+    bookingNote?: true
+    isPublished?: true
+    isFeatured?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -7489,6 +7526,13 @@ export namespace Prisma {
     noOfTravelDays?: true
     imageUrl?: true
     pricePerPerson?: true
+    priceDescription?: true
+    discountPrice?: true
+    discountPercent?: true
+    discountDescription?: true
+    bookingNote?: true
+    isPublished?: true
+    isFeatured?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -7504,6 +7548,14 @@ export namespace Prisma {
     imageUrl?: true
     coverImagesUrl?: true
     pricePerPerson?: true
+    priceDescription?: true
+    discountPrice?: true
+    discountPercent?: true
+    discountDescription?: true
+    bookingNote?: true
+    amenities?: true
+    isPublished?: true
+    isFeatured?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -7606,6 +7658,14 @@ export namespace Prisma {
     imageUrl: string | null
     coverImagesUrl: string[]
     pricePerPerson: number | null
+    priceDescription: string | null
+    discountPrice: number | null
+    discountPercent: number | null
+    discountDescription: string | null
+    bookingNote: string | null
+    amenities: string[]
+    isPublished: boolean
+    isFeatured: boolean
     createdById: string
     createdAt: Date
     updatedAt: Date
@@ -7640,6 +7700,14 @@ export namespace Prisma {
     imageUrl?: boolean
     coverImagesUrl?: boolean
     pricePerPerson?: boolean
+    priceDescription?: boolean
+    discountPrice?: boolean
+    discountPercent?: boolean
+    discountDescription?: boolean
+    bookingNote?: boolean
+    amenities?: boolean
+    isPublished?: boolean
+    isFeatured?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7659,6 +7727,14 @@ export namespace Prisma {
     imageUrl?: boolean
     coverImagesUrl?: boolean
     pricePerPerson?: boolean
+    priceDescription?: boolean
+    discountPrice?: boolean
+    discountPercent?: boolean
+    discountDescription?: boolean
+    bookingNote?: boolean
+    amenities?: boolean
+    isPublished?: boolean
+    isFeatured?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7675,6 +7751,14 @@ export namespace Prisma {
     imageUrl?: boolean
     coverImagesUrl?: boolean
     pricePerPerson?: boolean
+    priceDescription?: boolean
+    discountPrice?: boolean
+    discountPercent?: boolean
+    discountDescription?: boolean
+    bookingNote?: boolean
+    amenities?: boolean
+    isPublished?: boolean
+    isFeatured?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7691,12 +7775,20 @@ export namespace Prisma {
     imageUrl?: boolean
     coverImagesUrl?: boolean
     pricePerPerson?: boolean
+    priceDescription?: boolean
+    discountPrice?: boolean
+    discountPercent?: boolean
+    discountDescription?: boolean
+    bookingNote?: boolean
+    amenities?: boolean
+    isPublished?: boolean
+    isFeatured?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TravelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subTitle" | "description" | "shortDescription" | "noOfTravelDays" | "imageUrl" | "coverImagesUrl" | "pricePerPerson" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["travel"]>
+  export type TravelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subTitle" | "description" | "shortDescription" | "noOfTravelDays" | "imageUrl" | "coverImagesUrl" | "pricePerPerson" | "priceDescription" | "discountPrice" | "discountPercent" | "discountDescription" | "bookingNote" | "amenities" | "isPublished" | "isFeatured" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["travel"]>
   export type TravelInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     orders?: boolean | Travel$ordersArgs<ExtArgs>
@@ -7727,6 +7819,14 @@ export namespace Prisma {
       imageUrl: string | null
       coverImagesUrl: string[]
       pricePerPerson: number | null
+      priceDescription: string | null
+      discountPrice: number | null
+      discountPercent: number | null
+      discountDescription: string | null
+      bookingNote: string | null
+      amenities: string[]
+      isPublished: boolean
+      isFeatured: boolean
       createdById: string
       createdAt: Date
       updatedAt: Date
@@ -8165,6 +8265,14 @@ export namespace Prisma {
     readonly imageUrl: FieldRef<"Travel", 'String'>
     readonly coverImagesUrl: FieldRef<"Travel", 'String[]'>
     readonly pricePerPerson: FieldRef<"Travel", 'Float'>
+    readonly priceDescription: FieldRef<"Travel", 'String'>
+    readonly discountPrice: FieldRef<"Travel", 'Float'>
+    readonly discountPercent: FieldRef<"Travel", 'Int'>
+    readonly discountDescription: FieldRef<"Travel", 'String'>
+    readonly bookingNote: FieldRef<"Travel", 'String'>
+    readonly amenities: FieldRef<"Travel", 'String[]'>
+    readonly isPublished: FieldRef<"Travel", 'Boolean'>
+    readonly isFeatured: FieldRef<"Travel", 'Boolean'>
     readonly createdById: FieldRef<"Travel", 'String'>
     readonly createdAt: FieldRef<"Travel", 'DateTime'>
     readonly updatedAt: FieldRef<"Travel", 'DateTime'>
@@ -12180,6 +12288,14 @@ export namespace Prisma {
     imageUrl: 'imageUrl',
     coverImagesUrl: 'coverImagesUrl',
     pricePerPerson: 'pricePerPerson',
+    priceDescription: 'priceDescription',
+    discountPrice: 'discountPrice',
+    discountPercent: 'discountPercent',
+    discountDescription: 'discountDescription',
+    bookingNote: 'bookingNote',
+    amenities: 'amenities',
+    isPublished: 'isPublished',
+    isFeatured: 'isFeatured',
     createdById: 'createdById',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -12317,6 +12433,13 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
   /**
    * Deep Input Types
@@ -12714,6 +12837,14 @@ export namespace Prisma {
     imageUrl?: StringNullableFilter<"Travel"> | string | null
     coverImagesUrl?: StringNullableListFilter<"Travel">
     pricePerPerson?: FloatNullableFilter<"Travel"> | number | null
+    priceDescription?: StringNullableFilter<"Travel"> | string | null
+    discountPrice?: FloatNullableFilter<"Travel"> | number | null
+    discountPercent?: IntNullableFilter<"Travel"> | number | null
+    discountDescription?: StringNullableFilter<"Travel"> | string | null
+    bookingNote?: StringNullableFilter<"Travel"> | string | null
+    amenities?: StringNullableListFilter<"Travel">
+    isPublished?: BoolFilter<"Travel"> | boolean
+    isFeatured?: BoolFilter<"Travel"> | boolean
     createdById?: StringFilter<"Travel"> | string
     createdAt?: DateTimeFilter<"Travel"> | Date | string
     updatedAt?: DateTimeFilter<"Travel"> | Date | string
@@ -12732,6 +12863,14 @@ export namespace Prisma {
     imageUrl?: SortOrderInput | SortOrder
     coverImagesUrl?: SortOrder
     pricePerPerson?: SortOrderInput | SortOrder
+    priceDescription?: SortOrderInput | SortOrder
+    discountPrice?: SortOrderInput | SortOrder
+    discountPercent?: SortOrderInput | SortOrder
+    discountDescription?: SortOrderInput | SortOrder
+    bookingNote?: SortOrderInput | SortOrder
+    amenities?: SortOrder
+    isPublished?: SortOrder
+    isFeatured?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12753,6 +12892,14 @@ export namespace Prisma {
     imageUrl?: StringNullableFilter<"Travel"> | string | null
     coverImagesUrl?: StringNullableListFilter<"Travel">
     pricePerPerson?: FloatNullableFilter<"Travel"> | number | null
+    priceDescription?: StringNullableFilter<"Travel"> | string | null
+    discountPrice?: FloatNullableFilter<"Travel"> | number | null
+    discountPercent?: IntNullableFilter<"Travel"> | number | null
+    discountDescription?: StringNullableFilter<"Travel"> | string | null
+    bookingNote?: StringNullableFilter<"Travel"> | string | null
+    amenities?: StringNullableListFilter<"Travel">
+    isPublished?: BoolFilter<"Travel"> | boolean
+    isFeatured?: BoolFilter<"Travel"> | boolean
     createdById?: StringFilter<"Travel"> | string
     createdAt?: DateTimeFilter<"Travel"> | Date | string
     updatedAt?: DateTimeFilter<"Travel"> | Date | string
@@ -12771,6 +12918,14 @@ export namespace Prisma {
     imageUrl?: SortOrderInput | SortOrder
     coverImagesUrl?: SortOrder
     pricePerPerson?: SortOrderInput | SortOrder
+    priceDescription?: SortOrderInput | SortOrder
+    discountPrice?: SortOrderInput | SortOrder
+    discountPercent?: SortOrderInput | SortOrder
+    discountDescription?: SortOrderInput | SortOrder
+    bookingNote?: SortOrderInput | SortOrder
+    amenities?: SortOrder
+    isPublished?: SortOrder
+    isFeatured?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12794,6 +12949,14 @@ export namespace Prisma {
     imageUrl?: StringNullableWithAggregatesFilter<"Travel"> | string | null
     coverImagesUrl?: StringNullableListFilter<"Travel">
     pricePerPerson?: FloatNullableWithAggregatesFilter<"Travel"> | number | null
+    priceDescription?: StringNullableWithAggregatesFilter<"Travel"> | string | null
+    discountPrice?: FloatNullableWithAggregatesFilter<"Travel"> | number | null
+    discountPercent?: IntNullableWithAggregatesFilter<"Travel"> | number | null
+    discountDescription?: StringNullableWithAggregatesFilter<"Travel"> | string | null
+    bookingNote?: StringNullableWithAggregatesFilter<"Travel"> | string | null
+    amenities?: StringNullableListFilter<"Travel">
+    isPublished?: BoolWithAggregatesFilter<"Travel"> | boolean
+    isFeatured?: BoolWithAggregatesFilter<"Travel"> | boolean
     createdById?: StringWithAggregatesFilter<"Travel"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Travel"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Travel"> | Date | string
@@ -13463,6 +13626,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy: UserCreateNestedOneWithoutCreatedTravelsInput
@@ -13480,6 +13651,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13497,6 +13676,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutCreatedTravelsNestedInput
@@ -13514,6 +13701,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13531,6 +13726,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13546,6 +13749,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13560,6 +13771,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14281,6 +14500,11 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type TripListRelationFilter = {
     every?: TripWhereInput
     some?: TripWhereInput
@@ -14301,6 +14525,14 @@ export namespace Prisma {
     imageUrl?: SortOrder
     coverImagesUrl?: SortOrder
     pricePerPerson?: SortOrder
+    priceDescription?: SortOrder
+    discountPrice?: SortOrder
+    discountPercent?: SortOrder
+    discountDescription?: SortOrder
+    bookingNote?: SortOrder
+    amenities?: SortOrder
+    isPublished?: SortOrder
+    isFeatured?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14308,6 +14540,8 @@ export namespace Prisma {
 
   export type TravelAvgOrderByAggregateInput = {
     pricePerPerson?: SortOrder
+    discountPrice?: SortOrder
+    discountPercent?: SortOrder
   }
 
   export type TravelMaxOrderByAggregateInput = {
@@ -14319,6 +14553,13 @@ export namespace Prisma {
     noOfTravelDays?: SortOrder
     imageUrl?: SortOrder
     pricePerPerson?: SortOrder
+    priceDescription?: SortOrder
+    discountPrice?: SortOrder
+    discountPercent?: SortOrder
+    discountDescription?: SortOrder
+    bookingNote?: SortOrder
+    isPublished?: SortOrder
+    isFeatured?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14333,6 +14574,13 @@ export namespace Prisma {
     noOfTravelDays?: SortOrder
     imageUrl?: SortOrder
     pricePerPerson?: SortOrder
+    priceDescription?: SortOrder
+    discountPrice?: SortOrder
+    discountPercent?: SortOrder
+    discountDescription?: SortOrder
+    bookingNote?: SortOrder
+    isPublished?: SortOrder
+    isFeatured?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14340,6 +14588,8 @@ export namespace Prisma {
 
   export type TravelSumOrderByAggregateInput = {
     pricePerPerson?: SortOrder
+    discountPrice?: SortOrder
+    discountPercent?: SortOrder
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14356,6 +14606,14 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type LocationListRelationFilter = {
@@ -14855,6 +15113,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type TravelCreateamenitiesInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutCreatedTravelsInput = {
     create?: XOR<UserCreateWithoutCreatedTravelsInput, UserUncheckedCreateWithoutCreatedTravelsInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedTravelsInput
@@ -14900,6 +15162,15 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type TravelUpdateamenitiesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutCreatedTravelsNestedInput = {
@@ -15264,6 +15535,11 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -15278,6 +15554,14 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -15409,6 +15693,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderCreateNestedManyWithoutTravelInput
@@ -15425,6 +15717,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutTravelInput
@@ -15566,6 +15866,14 @@ export namespace Prisma {
     imageUrl?: StringNullableFilter<"Travel"> | string | null
     coverImagesUrl?: StringNullableListFilter<"Travel">
     pricePerPerson?: FloatNullableFilter<"Travel"> | number | null
+    priceDescription?: StringNullableFilter<"Travel"> | string | null
+    discountPrice?: FloatNullableFilter<"Travel"> | number | null
+    discountPercent?: IntNullableFilter<"Travel"> | number | null
+    discountDescription?: StringNullableFilter<"Travel"> | string | null
+    bookingNote?: StringNullableFilter<"Travel"> | string | null
+    amenities?: StringNullableListFilter<"Travel">
+    isPublished?: BoolFilter<"Travel"> | boolean
+    isFeatured?: BoolFilter<"Travel"> | boolean
     createdById?: StringFilter<"Travel"> | string
     createdAt?: DateTimeFilter<"Travel"> | Date | string
     updatedAt?: DateTimeFilter<"Travel"> | Date | string
@@ -15768,6 +16076,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy: UserCreateNestedOneWithoutCreatedTravelsInput
@@ -15784,6 +16100,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15889,6 +16213,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutCreatedTravelsNestedInput
@@ -15905,6 +16237,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16150,6 +16490,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy: UserCreateNestedOneWithoutCreatedTravelsInput
@@ -16166,6 +16514,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16232,6 +16588,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutCreatedTravelsNestedInput
@@ -16248,6 +16612,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16472,6 +16844,14 @@ export namespace Prisma {
     imageUrl?: string | null
     coverImagesUrl?: TravelCreatecoverImagesUrlInput | string[]
     pricePerPerson?: number | null
+    priceDescription?: string | null
+    discountPrice?: number | null
+    discountPercent?: number | null
+    discountDescription?: string | null
+    bookingNote?: string | null
+    amenities?: TravelCreateamenitiesInput | string[]
+    isPublished?: boolean
+    isFeatured?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16595,6 +16975,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUpdateManyWithoutTravelNestedInput
@@ -16611,6 +16999,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutTravelNestedInput
@@ -16627,6 +17023,14 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     coverImagesUrl?: TravelUpdatecoverImagesUrlInput | string[]
     pricePerPerson?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    discountPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    discountPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    discountDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    bookingNote?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: TravelUpdateamenitiesInput | string[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

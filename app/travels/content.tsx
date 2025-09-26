@@ -3,15 +3,14 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import type { Travel, Trip } from "@/prisma/generated/prisma";
-import { Session, User } from "@/auth";
+import type { Travel } from "@/prisma/generated/prisma";
+import { Session } from "@/auth";
 import { use } from "react";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 
 
 type TripsParam = {
@@ -32,28 +31,37 @@ export default function Content({ travelsPromise, sessionPromise }: TripsParam) 
 
       <div>
         { session && session.user.role === "admin" ? <Button className="my-4" asChild><Link href="/travel/new">New Travel </Link></Button> : false }
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 col-gap-4 gap-6">
           {travels && travels.map((travel, key) => (
             <Link key={key} href={`/travels/${travel.id}`}>
-              <Card className="h-full hover:shadow-md transition-shadow">
-                <CardHeader>
+              <Card className="h-full hover:shadow-md transition-shadow overflow-hidden pt-0">
+                <CardHeader className="p-0 overflow-hidden h-56 w-full relative">
                   <Image
                     src={travel.imageUrl || ''}
                     alt={travel.title}
                     className="object-cover"
-                    width={200}
-                    height={150}
                     priority
+                    fill
                   />
                 </CardHeader>
                 <CardContent>
-                  <div className="cardTitle">{travel.title}</div>
-                  <div className="CardSubTitle">{travel.subTitle}</div>
-                  <div className="cardDescription">
+                  <div className="cardTitle text-2xl font-bold">{travel.title}</div>
+                  <div className="CardSubTitle flex items-start text-sm text-gray-500 ">
+                    <MapPin className="h-5 w-5 mr-1 text-gray-500" /> 
+                    {travel.shortDescription}
+                  </div>
+                  <div className="cardDescription text-sm text-gray-500">
+                    {travel.noOfTravelDays}
+                  </div>
+                  <div className="cardDescription h-20 text-sm text-gray-700 my-4 line-clamp-4 overflow-hidden">
                     {travel.description}
                   </div>
-                  <div className="cardPrice">
-                    {travel.pricePerPerson ? `$${travel.pricePerPerson} per person` : 'Price on request'}
+                  <div className="cardPrice border rounded-sm p-4 mt-6 h-24  flex flex-col items-center justify-center">
+                      <div className="flex align-top">
+                      <span className="font-semibold mr-1 text-lg ">$</span>  
+                      <span className="text-4xl font-bold">{travel.pricePerPerson?.toLocaleString('en-US')}</span>
+                    </div>
+                    <div className="text-sm mb-1"> {travel.priceDescription} </div>
                   </div>
                 </CardContent>
               </Card>
