@@ -12,8 +12,7 @@ export function ImageUploader({ onUploadSuccess }: uploaderProps) {
     <CldUploadWidget
       uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'ml_default'}
       signatureEndpoint="/api/sign-cloudinary-params"
-      onSuccess={(result) => {
-        console.log("Upload successful! Result:", result);
+      onSuccess={(result) => {        
         if (typeof result.info === "object" && "secure_url" in result.info) {
           onUploadSuccess(result.info.secure_url);
         }
@@ -22,7 +21,7 @@ export function ImageUploader({ onUploadSuccess }: uploaderProps) {
         maxFiles: 20,
         resourceType: "image",
         sources: ["local"],
-        folder: "travel-asia",
+        // folder: "travel-asia",
       }}
     >
       {({ open }) => {

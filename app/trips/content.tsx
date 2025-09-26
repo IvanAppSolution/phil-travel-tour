@@ -19,7 +19,7 @@ type TripsParam = {
  sessionPromise: Promise <Session | null>
 } 
 
-export default function ClientContent({ tripsPromise, sessionPromise }: TripsParam) {
+export default function Content({ tripsPromise, sessionPromise }: TripsParam) {
   const trips = use(tripsPromise) || null;
   const session = use(sessionPromise) || null;
 
@@ -36,14 +36,15 @@ export default function ClientContent({ tripsPromise, sessionPromise }: TripsPar
             <Link key={key} href={`/trips/${trip.id}`}>
               <Card className="h-full hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <Image
-                              src={trip.imageUrl || ''}
+                  { trip.imageUrl ? <Image
+                              src={trip.imageUrl}
                               alt={trip.title}
                               className="object-cover"
                               width={200}
                               height={150}
                               priority
                             />
+                  : false }
                 </CardHeader>
                 <CardContent>
                   <div className="cardTitle">{trip.title}</div>

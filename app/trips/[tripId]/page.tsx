@@ -1,13 +1,18 @@
 import { auth } from "@/auth";
-import TripDetailClient from "./trip-detail";
+// import TripDetailClient from "./trip-detail";
 import { prisma } from "@/lib/prisma";
+import TripContent from "./trip-content";
+import { Trip } from "@/prisma/generated/prisma";
 
-export default async function TripDetail({
-  params,
-}: {
-  params: Promise<{ tripId: string }>;
-}) {
-  const { tripId } = await params;
+interface PageProps {
+  params: { tripId: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+} 
+
+export default async function TripDetail({ params, searchParams }: PageProps) {
+  const tripId = params.tripId;
+  const travelId = searchParams.travelId as string | undefined;
+  console.log('travelId: ', travelId);
 
   const session = await auth();
 
@@ -15,16 +20,19 @@ export default async function TripDetail({
     return <div> Please sign in.</div>;
   }
 
-  const trip = await prisma.trip.findFirst({
-    where: { id: tripId },
-    include: { locations: true },
-  });
-
-  console.log(trip);
-
-  if (!trip) {
-    return <div> Trip not found.</div>;
-  }
-
-  return <TripDetailClient trip={trip} />;
+  let trip = Promise.resolve<Trip & { locations: any[] } | null>(null);
+    if (tripId) {
+      trip = prisma.trip.findFirst({
+        where: { id: tripId as string },
+        include: {
+            locations: true
+        },
+      });
+    }
+  
+    const travel = prisma.travel.findMany({
+      select: { id: true, title: true }
+    });
+  
+  return <TripContent travelPromise={travel} tripPromise={trip} travelId={travelId as string | undefined} />
 }

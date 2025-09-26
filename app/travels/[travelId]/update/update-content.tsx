@@ -4,10 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { updateTravel } from "@/lib/actions/travel";
 import { cn } from "@/lib/utils";
-// import { UploadButton } from "@/lib/upload-thing";
 import { use, useEffect, useState, useTransition } from "react";
 import Image from "next/image";
-// import { MultipleImageUploadButton, SingleImageUploadButton } from "@/components/ui/image-upload";
 import { Travel } from "@/prisma/generated/prisma";
 import { set } from "zod";
 import { X } from "lucide-react";
@@ -130,7 +128,7 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
               <Input
                 name="noOfTravelDays"
                 placeholder="Days of Travel"
-                             
+                defaultValue={travel.noOfTravelDays || ''}             
               />
             </div>
             <div>
@@ -150,7 +148,10 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
             </div>       
              
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1"> Product Photo (1 Photo) <ImageUploader onUploadSuccess={handleImageUploaded} /></label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Product Photo (1 Photo)
+                <ImageUploader onUploadSuccess={handleImageUploaded} />
+              </label>
               {imageUrl && (
                   <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                      
@@ -177,12 +178,16 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1"> Cover Photos (up to 10 Photos)  <ImageUploader onUploadSuccess={handleCoverImagesUploaded} /></label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Cover Photos (up to 10 Photos)
+                <ImageUploader onUploadSuccess={handleCoverImagesUploaded} />
+              </label>
               {coverImagesUrl.length > 0 && (
                   <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                      {coverImagesUrl.map((imageUrl, index) => (
-                      <div className="relative group">
+                      <div className="relative group" key={index}>
                         <Image
+                          key={index}
                           src={imageUrl || ''}
                           alt={`imageProductUrl`}
                           width={300}
@@ -190,6 +195,7 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
                           className="rounded-lg object-cover w-full h-48"
                         />
                         <Button
+                          type="button"
                           variant="destructive"
                           size="icon"
                           className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
