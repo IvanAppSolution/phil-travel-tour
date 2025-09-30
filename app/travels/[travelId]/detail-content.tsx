@@ -20,6 +20,7 @@ import { scale } from "@cloudinary/url-gen/actions/resize";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { set } from "zod";
+import { Session } from "@/prisma/generated/prisma";
 
 export type TravelWithTripWithLocation = Travel & {
   trips: (Trip & {
@@ -29,7 +30,7 @@ export type TravelWithTripWithLocation = Travel & {
 
 interface ContentProps {
   travelPromise: Promise<TravelWithTripWithLocation | null>;
-  user: User | undefined;
+  sessionPromise: Promise<Session | null>;
 }
 
 type GalleryPhoto = {
@@ -37,28 +38,35 @@ type GalleryPhoto = {
 };
 
 
-export default function DetailContent({ travelPromise, user }: ContentProps) {
+export default function DetailContent({ travelPromise, sessionPromise }: ContentProps) {
   const [activeTab, setActiveTab] = useState("overview");
   const travel = use(travelPromise);
+  const session = use(sessionPromise);
   const [locations, setLocations] = useState<Location[]>([]);
   const [coverPhotos, setCoverPhotos] = useState<Photo[]>([]);
   const [galleryPhotos, setGalleryPhotos] = useState<GalleryPhoto[]>([]);
   const [isOpenGallery, setIsOpenGallery] = useState(false);
+  const [isOpenFullGallery, setIsOpenFullGallery] = useState(false);
   const imageGalleryRef = useRef(null);
   const [slideIndex, setSlideIndex] = useState(undefined as number | undefined);
   
 
-  const onClickHandler = (index:number) => {
-    console.log("clicked image index: ", index);
-    console.log("imageGalleryRef: ", imageGalleryRef);
+  const onClickOpenFullscreenHandler = (index:number) => {    
     if (imageGalleryRef.current) {
+      setIsOpenFullGallery(true);
       setSlideIndex(index)
       // @ts-ignore
       imageGalleryRef.current.fullScreen();
     }
   };
 
-  const handleOpenGallery = () => {console.log('handleOpenGallery'); setIsOpenGallery(true); initGalleryPhotos();};
+  const onClickCloseFullscreenHandler = () => {
+    console.log("close clicked");
+
+    setIsOpenFullGallery(false);
+  };
+
+  const handleOpenGallery = () => { setIsOpenGallery(true); initGalleryPhotos();};
   const handleCloseGallery = () => setIsOpenGallery(false);
 
   const cld = new Cloudinary({
@@ -145,7 +153,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
           title={title}
           sizes={sizes}
           placeholder={"blurDataURL" in photo ? "blur" : undefined}
-          onClick={()=>onClickHandler(index)} 
+          onClick={()=>onClickOpenFullscreenHandler(index)} 
         />
       </div>
     );
@@ -157,7 +165,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
       <div className="w-full h-80 md:h-80 overflow-hidden rounded-xl shadow-lg relative">
           {travel && travel.coverImagesUrl && travel?.coverImagesUrl.length ? (
             <>
-            <div className="w-full grid grid-cols-2 gap-2 relative  ">
+            <div className="w-full grid grid-cols-2 gap-2 relative z-1 bg-white">
                 <div className="group relative flex h-80  items-end overflow-hidden  bg-gray-100 shadow-lg">
                   <Image
                     src={travel.coverImagesUrl[0]}
@@ -187,7 +195,9 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
                  )}   
                 </div>                
             </div>
-            {galleryPhotos.length ? <ImageGallery className="z-0" items={galleryPhotos} ref={imageGalleryRef}  showThumbnails={false} startIndex={slideIndex} showPlayButton={false} /> : null}
+            <div className="absolute inset-0 z-0" > 
+              <ImageGallery className="z-0" items={galleryPhotos} ref={imageGalleryRef} showThumbnails={false} startIndex={slideIndex} showPlayButton={false} onClickCloseFullscreenHandler={() =>onClickCloseFullscreenHandler} handleCloseGallery={() => onClickCloseFullscreenHandler} />
+            </div> 
             </>
           ) : (
             <div className="flex items-center justify-center h-full bg-gray-200 rounded-t-lg">
@@ -197,7 +207,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
           }
         </div>
    
-      <div className="bg-white p-6 shadow rounded-lg">
+      <div className="bg-white p-6 shadow rounded-lg relative z-1">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="">
             <TabsTrigger value="overview" className="text-lg">
@@ -212,14 +222,14 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
           </TabsList>
 
           {/* OVERVIEW */}
-          <TabsContent value="overview" className="space-y-6 gap-6">
-            <div className="grid grid-cols-3">
+          <TabsContent value="overview" className="space-y-6 gap-6 relative z-1">
+            <div className="grid grid-cols-3 z-2">
               <div className="my-6 md:col-span-2">
                 <div className="">
                   <h1 className="text-4xl font-extrabold text-gray-900">
                     {" "}
                     {travel.title} 
-                    { user && user.role === "admin" ? <Link className="" href={`/travels/${travel.id}/update`}><Button className="ml-3 w-16" size="icon"  variant="outline"><Pen className="h-5 w-5" />Edit </Button></Link> : false }
+                    { session && session.user?.role === "admin" ? <Link className="" href={`/travels/${travel.id}/update`}><Button className="ml-3 w-16" size="icon"  variant="outline"><Pen className="h-5 w-5" />Edit </Button></Link> : false }
                   </h1>
                   <p className="text-gray-500 mt-2">{travel.subTitle}</p>
                   <p className="text-gray-500 mt-1 flex"> <Calendar className="h-5 w-5 mr-1" /> {travel.noOfTravelDays}</p>
@@ -232,12 +242,12 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
               
                 <div className="my-6">
                   <h3 className="text-lg font-medium mb-2">Included Trips
-                  { user && user.role === "admin" ? <Link className="" href={`/trips/0?travelId=${travel.id}`}><Button className="ml-3 w-24" size="icon"  variant="outline"><MapPinPlus className="h-5 w-5" />Add Trip </Button></Link> : false }
+                  { session && session.user?.role === "admin" ? <Link className="" href={`/trips/0?travelId=${travel.id}`}><Button className="ml-3 w-24" size="icon"  variant="outline"><MapPinPlus className="h-5 w-5" />Add Trip </Button></Link> : false }
                   </h3>
                   <ul className="list-disc pl-5">
                     {travel && travel.trips.map(trip => (
                       <li key={trip.id} className="mb-2">
-                        <span className="font-medium inline-flex items-center justify-center">{trip.title}&nbsp;{ user && user.role === "admin" ? <Link className="" href={`/trips/${trip.id}?travelId=${travel.id}`}> <Pen className="h-4 w-4" /></Link> : false }</span>  
+                        <span className="font-medium inline-flex items-center justify-center">{trip.title}&nbsp;{ session && session.user.role === "admin" ? <Link className="" href={`/trips/${trip.id}?travelId=${travel.id}`}> <Pen className="h-4 w-4" /></Link> : false }</span>  
                         <div>                          
                         <div className="flex items-start text-sm text-gray-500 mt-1">  
                           <MapPin className="h-5 w-5 mr-1 text-gray-500" />                         
@@ -263,7 +273,9 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
                     {/* Add Booking Column */}
                   
               </div>
-            </div>  
+              
+            </div> 
+            
           </TabsContent>
           
           {/* ITINERARY */}
@@ -318,6 +330,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
             )}
           </TabsContent>
         </Tabs>
+        
       </div>
       <div className="text-center">
         <Link href={`/trips`}>
