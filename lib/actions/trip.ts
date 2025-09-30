@@ -55,5 +55,5 @@ export async function createUpdateTrip(formData: FormData) {
   }
   
 
-  redirect("/travels/" + travelId);
+  // redirect("/travels/" + travelId);
 }

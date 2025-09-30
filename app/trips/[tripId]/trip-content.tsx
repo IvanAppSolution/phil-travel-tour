@@ -181,7 +181,7 @@ export default function TripContent({ travelPromise, tripPromise, travelId } : C
             </div>
             {trip ? <div>
               <div className="text-center p-4">
-                <p>Add locations to see them on the map.</p>
+                {/* <p>Add locations to see them on the map.</p> */}
                 <Link href={`/trips/${trip.id}/itinerary/new`}>
                   <Button>
                     {" "}
@@ -191,9 +191,9 @@ export default function TripContent({ travelPromise, tripPromise, travelId } : C
               </div>
               <div className="flex items-start text-sm text-gray-500 mt-1">
                 {trip.locations.length > 0 && trip.locations.map((loc) => (
-                  <div key={loc.id} className="flex flex-row items-center mr-4 mb-2">
-                  <MapPin className="h-5 w-5 mr-1 text-gray-500" />
-                  <span key={loc.id}>{loc.locationTitle}</span>
+                  <div key={loc.id} className="flex flex-row w-full items-center mr-4 mb-2">
+                    <MapPin className="h-5 w-5 mr-1 text-gray-500" />
+                    <span key={loc.id}>{loc.locationTitle}</span>
                   </div>
                 )) }
               </div>

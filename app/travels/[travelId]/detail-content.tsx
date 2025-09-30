@@ -58,7 +58,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
     }
   };
 
-  const handleOpenGallery = () => {setIsOpenGallery(true); initGalleryPhotos();};
+  const handleOpenGallery = () => {console.log('handleOpenGallery'); setIsOpenGallery(true); initGalleryPhotos();};
   const handleCloseGallery = () => setIsOpenGallery(false);
 
   const cld = new Cloudinary({
@@ -145,6 +145,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
           title={title}
           sizes={sizes}
           placeholder={"blurDataURL" in photo ? "blur" : undefined}
+          onClick={()=>onClickHandler(index)} 
         />
       </div>
     );
@@ -155,6 +156,7 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
     <div className="container mx-auto px-4 py-8 space-y-8">
       <div className="w-full h-80 md:h-80 overflow-hidden rounded-xl shadow-lg relative">
           {travel && travel.coverImagesUrl && travel?.coverImagesUrl.length ? (
+            <>
             <div className="w-full grid grid-cols-2 gap-2 relative  ">
                 <div className="group relative flex h-80  items-end overflow-hidden  bg-gray-100 shadow-lg">
                   <Image
@@ -183,9 +185,10 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
                     </div>
                   }
                  )}   
-                </div>
-                {galleryPhotos.length ? <ImageGallery  items={galleryPhotos} ref={imageGalleryRef} lazyLoad={true} showThumbnails={false} startIndex={slideIndex} showPlayButton={false} /> : null}
+                </div>                
             </div>
+            {galleryPhotos.length ? <ImageGallery className="z-0" items={galleryPhotos} ref={imageGalleryRef}  showThumbnails={false} startIndex={slideIndex} showPlayButton={false} /> : null}
+            </>
           ) : (
             <div className="flex items-center justify-center h-full bg-gray-200 rounded-t-lg">
               <span className="text-gray-500">No Image</span>
@@ -323,28 +326,33 @@ export default function DetailContent({ travelPromise, user }: ContentProps) {
       </div>
 
       
-      <Dialog open={isOpenGallery} onOpenChange={setIsOpenGallery} >
-        <DialogContent className="max-w-11/12 relative" showCloseButton={false}>
+
+      
+      <Dialog open={isOpenGallery} onOpenChange={setIsOpenGallery}>
+        <DialogContent className="max-w-[90vw] h-[90vh] p-0 z-1" showCloseButton={false}>
           <DialogOverlay className="bg-white z-0" />
           <DialogHeader className="z-1">
             <DialogTitle>Photos</DialogTitle>
-            <DialogClose onClick={handleCloseGallery} className="absolute top-4 right-4" >
-              <span className=" flex ">
-              Close
-              <XIcon className="h-6 w-6" />
+            <DialogClose onClick={handleCloseGallery} className="absolute top-10 right-14">
+              <span className="flex items-center gap-2">
+                Close
+                <XIcon className=" " />
               </span>
             </DialogClose>
           </DialogHeader>
-          <ScrollArea className="h-9/12 w-full rounded-md border mb-4 border-none">            
+          
+          <ScrollArea className="h-[calc(90vh-30px)] w-full">
+            <div className="pb-6 z-100">
               <RowsPhotoAlbum
-                  photos={coverPhotos}
-                  render={{ image: renderNextImage }}
-                  defaultContainerWidth={1200}   
-                  sizes={{
-                    size: "1168px",
-                    sizes: [{ viewport: "(max-width: 1200px)", size: "calc(100vw - 32px)" }],
-                  }}
-                />
+                photos={coverPhotos}
+                render={{ image: renderNextImage }}
+                defaultContainerWidth={1200}
+                sizes={{
+                  size: "1168px",
+                  sizes: [{ viewport: "(max-width: 1200px)", size: "calc(100vw - 32px)" }],
+                }}
+              />
+            </div>
           </ScrollArea>
         </DialogContent>
       </Dialog>

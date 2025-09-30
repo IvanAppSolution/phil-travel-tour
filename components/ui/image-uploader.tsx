@@ -18,7 +18,7 @@ export function ImageUploader({ onUploadSuccess }: uploaderProps) {
         }
       }}
       options={{
-        maxFiles: 20,
+        maxFiles: 30,
         resourceType: "image",
         sources: ["local"],
         // folder: "travel-asia",
