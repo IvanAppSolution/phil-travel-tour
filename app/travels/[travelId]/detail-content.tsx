@@ -333,8 +333,8 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
         
       </div>
       <div className="text-center">
-        <Link href={`/trips`}>
-          <Button> Back to Trips</Button>
+        <Link href={`/travels`}>
+          <Button> Back to Travels</Button>
         </Link>
       </div>
 
