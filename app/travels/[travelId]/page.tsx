@@ -10,11 +10,11 @@ export default async function TravelDetail({
 }) {
   const { travelId } = await params;
 
-  const session = await auth() as Session;
+  const session = auth() as Promise<Session | null>;
 
-  if (!session) {
-    return <div> Please sign in.</div>;
-  }
+  // if (!session) {
+  //   return <div> Please sign in.</div>;
+  // }
 
   const travelPromise = prisma.travel.findFirst({
     where: { id: travelId },
@@ -27,5 +27,5 @@ export default async function TravelDetail({
     },
   });
 
-  return <DetailContent travelPromise={travelPromise} user={session.user} />;
+  return <DetailContent travelPromise={travelPromise} sessionPromise={session} />;
 }

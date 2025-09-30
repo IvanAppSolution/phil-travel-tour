@@ -187,11 +187,11 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
                      {coverImagesUrl.map((imageUrl, index) => (
                       <div className="relative group" key={index}>
                         <Image
-                          key={index}
                           src={imageUrl || ''}
                           alt={`imageProductUrl`}
                           width={300}
                           height={300}
+                          
                           className="rounded-lg object-cover w-full h-48"
                         />
                         <Button
@@ -200,9 +200,9 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
                           size="icon"
                           className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
                           onClick={() => handleRemoveCoverImage(index)}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
+                          >
+                          <X className="h-4 w-4" />
+                        </Button>
                       </div>
                     ))}
                   </div>

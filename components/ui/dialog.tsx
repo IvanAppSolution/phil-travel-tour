@@ -79,7 +79,7 @@ function DialogContent({
 
           <ScrollArea className="h-[300px] w-full pr-4"> {/* Adjust height as needed */}
             {/* Your long content goes here */}
-            <p>This is some content that will eventually overflow and become scrollable.</p>
+            {/* <p>This is some content that will eventually overflow and become scrollable.</p> */}
             {/* ... more content ... */}
             <ScrollBar orientation="vertical" /> {/* For vertical scrolling */}
             <ScrollBar orientation="horizontal" /> {/* Optional: For horizontal scrolling */}

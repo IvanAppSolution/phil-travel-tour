@@ -12,7 +12,7 @@ interface PageProps {
 export default async function TripDetail({ params, searchParams }: PageProps) {
   const tripId = params.tripId;
   const travelId = searchParams.travelId as string | undefined;
-  console.log('travelId: ', travelId);
+  // console.log('travelId: ', travelId);
 
   const session = await auth();
 
