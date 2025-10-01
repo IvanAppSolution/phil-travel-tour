@@ -95,12 +95,7 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
 
       setCoverPhotos(photos);      
     }
-
   }
-
-  
-  
- 
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
@@ -187,7 +182,6 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
           
           {/* ITINERARY */}
           <TabsContent value="itinerary" className="space-y-6">
-
             {travel.trips.length === 0 ? (
               <div className="text-center p-4">
                 <p>No trips available for this travel package.</p>
@@ -244,8 +238,6 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
           <Button> Back to Travels</Button>
         </Link>
       </div>
-
-      
     </div>
   );
 }
