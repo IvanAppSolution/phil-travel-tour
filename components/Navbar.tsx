@@ -14,7 +14,7 @@ export default function Navbar({ session }: { session: Session | null }) {
         <Link href={"/"} className="flex items-center">
           <Image src={"/logo.png"} alt="logo" width={50} height={50} />
           <span className="text-2xl font-bold text-gray-800">
-            Travel Asia
+            Visit Philippines
           </span>
         </Link>
 

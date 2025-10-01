@@ -2,25 +2,20 @@
 
 import { Location, Travel, Trip } from "@/prisma/generated/prisma";
 import Image from "next/image";
-import { Calendar, MapPin, Pen, XIcon, MapPinPlus } from "lucide-react";
+import {  MapPin, Pen, XIcon, MapPinPlus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { use, useEffect, useRef, useState } from "react";
 import Map from "./map";
-import SortableItinerary from "./sortable-itinerary";
-import { User } from "@/auth"
-import { RenderImageContext, RenderImageProps, RowsPhotoAlbum } from "react-photo-album";
-import "react-photo-album/rows.css";
-import type { Photo } from "react-photo-album";
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogOverlay, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {Cloudinary} from "@cloudinary/url-gen";
-import { scale } from "@cloudinary/url-gen/actions/resize";
-import ImageGallery from "react-image-gallery";
-import "react-image-gallery/styles/css/image-gallery.css";
-import { set } from "zod";
+import { CalendarIcon } from "lucide-react"
 import { Session } from "@/prisma/generated/prisma";
+import * as React from "react"
+import type { Photo } from "react-photo-album";
+import { fa } from "zod/v4/locales";
+import { CustomerInq } from "@/lib/types";
+import BookingCardForm from "./booking-card-form";
+import CoverImageGallery from "./cover-image-gallery";
 
 export type TravelWithTripWithLocation = Travel & {
   trips: (Trip & {
@@ -33,47 +28,42 @@ interface ContentProps {
   sessionPromise: Promise<Session | null>;
 }
 
-type GalleryPhoto = {
-  original: string;
-};
+
 
 
 export default function DetailContent({ travelPromise, sessionPromise }: ContentProps) {
   const [activeTab, setActiveTab] = useState("overview");
   const travel = use(travelPromise);
-  const session = use(sessionPromise);
+  const session = use(sessionPromise) as Session | null;
   const [locations, setLocations] = useState<Location[]>([]);
   const [coverPhotos, setCoverPhotos] = useState<Photo[]>([]);
-  const [galleryPhotos, setGalleryPhotos] = useState<GalleryPhoto[]>([]);
-  const [isOpenGallery, setIsOpenGallery] = useState(false);
-  const [isOpenFullGallery, setIsOpenFullGallery] = useState(false);
-  const imageGalleryRef = useRef(null);
-  const [slideIndex, setSlideIndex] = useState(undefined as number | undefined);
-  
 
-  const onClickOpenFullscreenHandler = (index:number) => {    
-    if (imageGalleryRef.current) {
-      setIsOpenFullGallery(true);
-      setSlideIndex(index)
-      // @ts-ignore
-      imageGalleryRef.current.fullScreen();
-    }
-  };
+  const [customerInq, setCustomerInq] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    nationality: "",
+    travelDate: "",
+    numAdults: 1,
+    numChildren: 0,
+    message: "",
+    pricePerPerson: travel?.pricePerPerson || 0,
+    travelCost: travel?.pricePerPerson || 0,
+    travelId: travel?.id || "",
+  } as CustomerInq);
 
-  const onClickCloseFullscreenHandler = () => {
-    console.log("close clicked");
+  const updateTravelCost = (numAdults: number, numChildren: number, pricePerPerson: number) => {
+    const adultCost = numAdults * pricePerPerson;
+    const childCost = numChildren * (pricePerPerson * 0.5); // Assuming children cost half    
+    setCustomerInq({
+      ...customerInq,
+      numAdults,
+      numChildren,
+      travelCost: adultCost + childCost,
+    });
+  }
+ 
 
-    setIsOpenFullGallery(false);
-  };
-
-  const handleOpenGallery = () => { setIsOpenGallery(true); initGalleryPhotos();};
-  const handleCloseGallery = () => setIsOpenGallery(false);
-
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "demo",
-    }
-  });
 
   if (!travel) {
     return <div> Travel not found.</div>;
@@ -108,104 +98,22 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
 
   }
 
-  function initGalleryPhotos() {
-    if (travel && travel.coverImagesUrl.length) {
-      const photos = travel.coverImagesUrl.map((url, i) => {
-        const imageId = url.split("/").pop()?.split(".")[0] || "";
-        const fullSizeUrl = cld.image(imageId)
-                            .quality('auto')
-                            .format('auto')
-                            // .resize(scale().width(100))
-                            .toURL();
-        return { original: fullSizeUrl };
-      });
-      // console.log("gallery photos: ", photos);
-      setGalleryPhotos(photos);
-    }
-
-  }
   
   
-  function renderNextImage({ alt = "", title, sizes }: RenderImageProps, { photo, width, height, index }: RenderImageContext) {
-    // "https://res.cloudinary.com/deji2i8fj/image/upload/v1758254274/moalboal-sardine-run-700-4_y4p4uj.jpg",
-    // const imageId = photo.src.split("/").pop()?.split(".")[0] || "";        
-    // const imgSrc = cld.image(imageId)
-    //                         .quality('auto')
-    //                         .format('auto')
-    //                         .resize(scale().width(400))
-    //                         .toURL();
-    // console.log("sizes: ", sizes);      
-    // console.log("imgSrc: ", imgSrc);                     
-    return (
-      <div
-        style={{
-          width: width,
-          position: "relative",
-          aspectRatio: `${width} / ${height}`,
-        }}
-      >
-        
-        {/* <img style={{width:"100%", height:"100%", position:"absolute", inset:"0"}} src={imgSrc} alt={title} loading="lazy" onClick={()=>onClickHandler(index)} />                       */}
-        <Image
-          fill
-          src={photo}
-          alt={alt}
-          title={title}
-          sizes={sizes}
-          placeholder={"blurDataURL" in photo ? "blur" : undefined}
-          onClick={()=>onClickOpenFullscreenHandler(index)} 
-        />
-      </div>
-    );
-  }
+ 
 
   return (
-    <>
     <div className="container mx-auto px-4 py-8 space-y-8">
       <div className="w-full h-80 md:h-80 overflow-hidden rounded-xl shadow-lg relative">
           {travel && travel.coverImagesUrl && travel?.coverImagesUrl.length ? (
-            <>
-            <div className="w-full grid grid-cols-2 gap-2 relative z-1 bg-white">
-                <div className="group relative flex h-80  items-end overflow-hidden  bg-gray-100 shadow-lg">
-                  <Image
-                    src={travel.coverImagesUrl[0]}
-                    alt={travel.title}
-                    fill
-                    sizes="(max-width: 672px) 100vw, 600px"
-                    priority
-                    className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-                    onClick={handleOpenGallery}
-                  /> 
-                </div>
-                <div className="grid grid-flow-row grid-cols-2 gap-2">  
-                  {travel.coverImagesUrl.slice(1, 5).map((url, idx) => {                  
-                    return  <div key={idx} className="group relative items-end overflow-hidden bg-gray-100 shadow-lg max-w-xl">
-                      <Image
-                        key={idx}
-                        src={url}
-                        alt={travel.title}
-                        fill
-                        sizes="(max-width: 384px) 100vw, 300px"
-                        priority
-                        className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-                        onClick={handleOpenGallery}
-                    />
-                    </div>
-                  }
-                 )}   
-                </div>                
-            </div>
-            <div className="absolute inset-0 z-0" > 
-              <ImageGallery className="z-0" items={galleryPhotos} ref={imageGalleryRef} showThumbnails={false} startIndex={slideIndex} showPlayButton={false} onClickCloseFullscreenHandler={() =>onClickCloseFullscreenHandler} handleCloseGallery={() => onClickCloseFullscreenHandler} />
-            </div> 
-            </>
+             <CoverImageGallery travel={travel} coverPhotos={coverPhotos}   />
           ) : (
             <div className="flex items-center justify-center h-full bg-gray-200 rounded-t-lg">
               <span className="text-gray-500">No Image</span>
             </div>
           )
           }
-        </div>
+      </div>
    
       <div className="bg-white p-6 shadow rounded-lg relative z-1">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -232,10 +140,10 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
                     { session && session.user?.role === "admin" ? <Link className="" href={`/travels/${travel.id}/update`}><Button className="ml-3 w-16" size="icon"  variant="outline"><Pen className="h-5 w-5" />Edit </Button></Link> : false }
                   </h1>
                   <p className="text-gray-500 mt-2">{travel.subTitle}</p>
-                  <p className="text-gray-500 mt-1 flex"> <Calendar className="h-5 w-5 mr-1" /> {travel.noOfTravelDays}</p>
+                  <p className="text-gray-500 mt-1 flex"> <CalendarIcon className="h-5 w-5 mr-1" /> {travel.noOfTravelDays}</p>
                 </div>
                 
-                <div className="my-4 text-gray-600 leading-relaxed">
+                <div className="my-4 text-gray-600 leading-relaxed mr-4">
                   {travel.description}
                 </div>
 
@@ -269,9 +177,8 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
 
                {/* COLUMN Booking */}
               <div>
-
-                    {/* Add Booking Column */}
-                  
+                    {/* Booking card form */}
+                  <BookingCardForm customerInq={customerInq} updateTravelCost={updateTravelCost} travel={travel} />                  
               </div>
               
             </div> 
@@ -339,39 +246,6 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
       </div>
 
       
-
-      
-      <Dialog open={isOpenGallery} onOpenChange={setIsOpenGallery}>
-        <DialogContent className="max-w-[90vw] h-[90vh] p-0 z-1" showCloseButton={false}>
-          <DialogOverlay className="bg-white z-0" />
-          <DialogHeader className="z-1">
-            <DialogTitle>Photos</DialogTitle>
-            <DialogClose onClick={handleCloseGallery} className="absolute top-10 right-14">
-              <span className="flex items-center gap-2">
-                Close
-                <XIcon className=" " />
-              </span>
-            </DialogClose>
-          </DialogHeader>
-          
-          <ScrollArea className="h-[calc(90vh-30px)] w-full">
-            <div className="pb-6 z-100">
-              <RowsPhotoAlbum
-                photos={coverPhotos}
-                render={{ image: renderNextImage }}
-                defaultContainerWidth={1200}
-                sizes={{
-                  size: "1168px",
-                  sizes: [{ viewport: "(max-width: 1200px)", size: "calc(100vw - 32px)" }],
-                }}
-              />
-            </div>
-          </ScrollArea>
-        </DialogContent>
-      </Dialog>
-    
-    </div>  
-    </>
-    
+    </div>
   );
 }
