@@ -18,15 +18,15 @@ react-photo-album
 React-globe  
 
 ## Screenshots  
-<img src="https://github.com/user-attachments/assets/f81525b2-7aa4-4516-aac9-6af4f793abd5" width="200">
+<img src="https://github.com/user-attachments/assets/f81525b2-7aa4-4516-aac9-6af4f793abd5" width="300">
 
-<img src="https://github.com/user-attachments/assets/a80b4c74-fc4b-49ea-8351-b4e492d46f20" width="200">
+<img src="https://github.com/user-attachments/assets/a80b4c74-fc4b-49ea-8351-b4e492d46f20" width="300">
 
-<img src="https://github.com/user-attachments/assets/b20254a3-e322-4b3f-84c2-a6c111e4ea5c" width="200">
+<img src="https://github.com/user-attachments/assets/b20254a3-e322-4b3f-84c2-a6c111e4ea5c" width="300">
 
-<img src="https://github.com/user-attachments/assets/642b2629-688c-4538-b3b5-03f284aff6dc" width="200">
+<img src="https://github.com/user-attachments/assets/642b2629-688c-4538-b3b5-03f284aff6dc" width="300">
 
-<img src="https://github.com/user-attachments/assets/fb544f53-fe89-4f52-a867-c2a609bb6d33" width="200">
+<img src="https://github.com/user-attachments/assets/fb544f53-fe89-4f52-a867-c2a609bb6d33" width="500">
 
 ## Getting Started
 ```bash
