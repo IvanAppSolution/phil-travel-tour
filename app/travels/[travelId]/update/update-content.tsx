@@ -1,18 +1,15 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { updateTravel } from "@/lib/actions/travel";
 import { cn } from "@/lib/utils";
-import { use, useEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import { Travel } from "@/prisma/generated/prisma";
-import { set } from "zod";
 import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploader } from "@/components/ui/image-uploader";
-// import { uploadImage } from "@/lib/actions/uploadImage";
 
 
 export default function UpdateContent({ travel }: {travel: Travel | null}) {
@@ -29,7 +26,6 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
   };
 
 
-  //Remove image handlers
   const handleRemoveImage = () => {
     setImageUrl("");    
   };
@@ -40,15 +36,16 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
     );    
   };
 
+  useEffect(() => {
+    if (travel !== null && Object.keys(travel).length) {
+      setImageUrl(travel.imageUrl ? travel.imageUrl : "");
+      setCoverImagesUrl(travel.coverImagesUrl || []);
+    }
+  }, [travel]);
 
-  if (!travel) {
+    if (!travel) {
     return <div>No travel data found.</div>;
   }
-
-  useEffect(() => {
-    setImageUrl(travel.imageUrl ? travel.imageUrl : "");
-    setCoverImagesUrl(travel.coverImagesUrl || []);
-  }, [travel]);
 
   return (
     <div className="container mx-auto py-10">

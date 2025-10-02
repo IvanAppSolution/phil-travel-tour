@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { createUpdateTrip } from "@/lib/actions/trip";
@@ -7,12 +6,10 @@ import { cn } from "@/lib/utils";
 import { UploadButton } from "@/lib/upload-thing";
 import { use, useEffect, useState, useTransition } from "react";
 import Image from "next/image";
-import { Location, Travel, Trip } from "@/prisma/generated/prisma";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useParams } from "next/navigation";
+import { Location, Trip } from "@/prisma/generated/prisma";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Link from "next/link";
 import { MapPin, Plus } from "lucide-react";
-import { set } from "zod";
 import { useRouter } from "next/navigation";
 
 type TravelName = {
@@ -24,7 +21,7 @@ interface ContentProps {
   tripPromise: Promise<(Trip & {
       locations: Location[];
     }) | null>;
-  travelId?: string | undefined;
+  travelId?: string | null;
 }
 
 export default function TripContent({ travelPromise, tripPromise, travelId } : ContentProps) {
@@ -35,15 +32,8 @@ export default function TripContent({ travelPromise, tripPromise, travelId } : C
   const [selectedTravelId, setSelectedTravelId] = useState('');
   const [isCreateMode, setIsCreateMode] = useState(false);
   const router = useRouter();
-  // const [selectedTravelTitle, setSelectedTravelTitle] = useState('');
-  // console.log("travels:", travels);
-  console.log("trip:", trip);
-  // const { travelId: paramTravelId } = useParams();
 
   useEffect(() => {
-    // console.log("trip:", trip);
-    // console.log("travels:", travels);  
-
     if (trip) {
       setIsCreateMode(false);
       setImageUrl(trip.imageUrl || null);
@@ -52,7 +42,6 @@ export default function TripContent({ travelPromise, tripPromise, travelId } : C
     } else{
       setIsCreateMode(true);
     }
- 
 
     if (travelId) {
       setSelectedTravelId(travelId); 
@@ -60,7 +49,9 @@ export default function TripContent({ travelPromise, tripPromise, travelId } : C
 
   }, [travelId, travels, trip]);
 
- 
+ const handleSetSelectedTravelId = (travelId: string) => {
+   if (travelId) setSelectedTravelId(travelId);
+  }
 
   return (
     <div className="max-w-lg mx-auto mt-10">
@@ -92,13 +83,17 @@ export default function TripContent({ travelPromise, tripPromise, travelId } : C
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Travel Name 
               </label>
-              <Select name="travelId" value={selectedTravelId}  onValueChange={(v) => {console.log('v:',v); v ? setSelectedTravelId(v) : false;}}  >
+              <Select 
+                name="travelId" 
+                value={selectedTravelId}  
+                onValueChange={(v) => handleSetSelectedTravelId(v)}  
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select Travel" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {travels.length && travels.map((travel) => (
+                    {travels && travels.length && travels.map((travel) => (
                       <SelectItem key={travel.id} value={travel.id}>
                         {travel.title}
                       </SelectItem>

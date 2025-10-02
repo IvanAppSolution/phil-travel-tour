@@ -2,7 +2,7 @@
 
 import { Location, Trip } from "@/prisma/generated/prisma";
 import Image from "next/image";
-import { Calendar, MapPin, Plus } from "lucide-react";
+import { MapPin, Plus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

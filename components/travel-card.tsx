@@ -5,15 +5,16 @@ import {
   CardContent,
   CardHeader,
 } from "@/components/ui/card";
+import { Travel } from "@/prisma/generated/prisma";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 
-export default function TravelCard({ travel, key }: { travel: any, key: number }) {
+export default function TravelCard({ travel }: { travel: Travel }) {
 
   return (
-    <Link key={key} href={`/travels/${travel.id}`}>
+    <Link  href={`/travels/${travel.id}`}>
       <Card className="h-full hover:shadow-md transition-shadow overflow-hidden pt-0 gap-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl">
         <CardHeader className="p-0 overflow-hidden h-56 w-full relative">
           <Image

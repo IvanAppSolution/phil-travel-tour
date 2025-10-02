@@ -3,13 +3,11 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
 import type { Trip } from "@/prisma/generated/prisma";
-import { Session, User } from "@/auth";
+import { Session } from "@/auth";
 import { use } from "react";
 import Image from "next/image";
 

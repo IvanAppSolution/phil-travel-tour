@@ -1,10 +1,10 @@
 "use client";
 import { RenderImageContext, RenderImageProps, RowsPhotoAlbum } from "react-photo-album";
 import "react-photo-album/rows.css";
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogOverlay, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogOverlay, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {Cloudinary} from "@cloudinary/url-gen";
- // @ts-ignore
+// @ts-expect-error: react-image-gallery has incomplete type definitions for ref handling
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Image from "next/image";
@@ -21,23 +21,23 @@ export default function CoverImageGallery({ travel, coverPhotos = []  }: { trave
 
   const [galleryPhotos, setGalleryPhotos] = useState<GalleryPhoto[]>([]);
   const [isOpenGallery, setIsOpenGallery] = useState(false);
-  const [isOpenFullGallery, setIsOpenFullGallery] = useState(false);
+  // const [isOpenFullGallery, setIsOpenFullGallery] = useState(false);
   const imageGalleryRef = useRef(null);
   const [slideIndex, setSlideIndex] = useState(undefined as number | undefined);
 
 
   const onClickOpenFullscreenHandler = (index:number) => {    
     if (imageGalleryRef.current) {
-      setIsOpenFullGallery(true);
+      // setIsOpenFullGallery(true);
       setSlideIndex(index)
-      // @ts-ignore
+      // @ts-expect-error: ImageGallery instance method 'fullScreen' is not included in type definitions
       imageGalleryRef.current.fullScreen();
     }
   };
 
-  const onClickCloseFullscreenHandler = () => {
-    setIsOpenFullGallery(false);
-  };
+  // const onClickCloseFullscreenHandler = () => {
+  //   setIsOpenFullGallery(false);
+  // };
 
   const handleOpenGallery = () => { setIsOpenGallery(true); initGalleryPhotos();};
   const handleCloseGallery = () => setIsOpenGallery(false);
@@ -48,16 +48,7 @@ export default function CoverImageGallery({ travel, coverPhotos = []  }: { trave
     }
   });
   
-  function renderNextImage({ alt = "", title, sizes }: RenderImageProps, { photo, width, height, index }: RenderImageContext) {
-  // "https://res.cloudinary.com/deji2i8fj/image/upload/v1758254274/moalboal-sardine-run-700-4_y4p4uj.jpg",
-  // const imageId = photo.src.split("/").pop()?.split(".")[0] || "";        
-  // const imgSrc = cld.image(imageId)
-  //                         .quality('auto')
-  //                         .format('auto')
-  //                         .resize(scale().width(400))
-  //                         .toURL();
-  // console.log("sizes: ", sizes);      
-  // console.log("imgSrc: ", imgSrc);                     
+  function renderNextImage({ alt = "", title, sizes }: RenderImageProps, { photo, width, height, index }: RenderImageContext) {                   
   return (
       <div
         style={{
@@ -84,7 +75,7 @@ export default function CoverImageGallery({ travel, coverPhotos = []  }: { trave
   
   function initGalleryPhotos() {
     if (travel && travel.coverImagesUrl.length) {
-      const photos = travel.coverImagesUrl.map((url, i) => {
+      const photos = travel.coverImagesUrl.map((url) => {
       const imageId = url.split("/").pop()?.split(".")[0] || "";
       const fullSizeUrl = cld.image(imageId)
                           .quality('auto')
@@ -93,7 +84,7 @@ export default function CoverImageGallery({ travel, coverPhotos = []  }: { trave
                           .toURL();
         return { original: fullSizeUrl };
       });
-      // console.log("gallery photos: ", photos);
+
       setGalleryPhotos(photos);
     }
 
@@ -132,7 +123,7 @@ export default function CoverImageGallery({ travel, coverPhotos = []  }: { trave
           </div>                
       </div>
       <div className="absolute inset-0 z-0" > 
-        <ImageGallery className="z-0" items={galleryPhotos} ref={imageGalleryRef} showThumbnails={false} startIndex={slideIndex} showPlayButton={false} onClickCloseFullscreenHandler={() =>onClickCloseFullscreenHandler} handleCloseGallery={() => onClickCloseFullscreenHandler} />
+        <ImageGallery className="z-0" items={galleryPhotos} ref={imageGalleryRef} showThumbnails={false} startIndex={slideIndex} showPlayButton={false} />
       </div> 
       {/* Gallery Dialog */}
       <Dialog open={isOpenGallery} onOpenChange={setIsOpenGallery}>
