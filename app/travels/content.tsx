@@ -17,10 +17,6 @@ export default function Content({ travelsPromise, sessionPromise }: TripsParam) 
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight"> Explore Trips</h1>
-      </div>
-
       <div>
         { session && session.user.role === "admin" ? <Button className="my-4" asChild><Link href="/travels/new">New Travel </Link></Button> : false }
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 col-gap-4 gap-6">
