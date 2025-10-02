@@ -1,8 +1,6 @@
 "use server";
-
 import { auth } from "@/auth";
 import { prisma } from "../prisma";
-import { redirect } from "next/navigation";
 
 export async function createUpdateTrip(formData: FormData) {
   const session = await auth();
@@ -20,14 +18,7 @@ export async function createUpdateTrip(formData: FormData) {
 
   if (!title || !travelId) {
     throw new Error("Title and Travel ID are required.");
-  }
-
-  // const startDateStr = formData.get("startDate")?.toString();
-  // const endDateStr = formData.get("endDate")?.toString();
-  //|| !startDateStr || !endDateStr
-  // const startDate = new Date(startDateStr);
-  // const endDate = new Date(endDateStr);
-   
+  } 
   if (!isCreateMode) {
     await prisma.trip.update({
     where: { id: formData.get("tripId")?.toString() },
@@ -53,7 +44,5 @@ export async function createUpdateTrip(formData: FormData) {
     },
   });
   }
-  
 
-  // redirect("/travels/" + travelId);
 }

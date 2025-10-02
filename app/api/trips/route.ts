@@ -11,11 +11,6 @@ export async function GET() {
     }
 
     const locations = await prisma.location.findMany({
-      where: {
-        trip: {
-          createdById: session.user?.id,
-        },
-      },
       select: {
         locationTitle: true,
         lat: true,

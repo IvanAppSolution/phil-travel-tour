@@ -10,7 +10,7 @@ interface PageProps {
 
 export default async function NewTrip({ searchParams }: PageProps) {
   const session = await auth() as Session;
-  if (!session && session?.user?.role !== 'admin') {
+  if (!session || session?.user?.role !== 'admin') {
     redirect("/login");
   }
 

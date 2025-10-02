@@ -1,14 +1,10 @@
 "use client";
-
-// import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { loginGithub, loginGoogle } from "@/lib/auth-actions";
 
 export const SocialLoginButtons = () => {
-  const router = useRouter();
   const signInWithGithub = async () => await loginGithub();
 
   const signInWithGoogle = async () => await loginGoogle();

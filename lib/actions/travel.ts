@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth, Session } from "@/auth";
 import { prisma } from "../prisma";
 import { redirect } from "next/navigation";
 
@@ -48,7 +48,7 @@ export async function createTravel(formData: FormData) {
 }
 
 export async function updateTravel(formData: FormData) {
-  const session = await auth();
+  const session = await auth() as Session;
   if (!session || session.user?.role !== "admin") {
     throw new Error("Not authenticated.");
   }
@@ -66,13 +66,6 @@ export async function updateTravel(formData: FormData) {
   if (!title || !description ) {
     throw new Error("All fields are required.");
   }
-
-  // const startDateStr = formData.get("startDate")?.toString();
-  // const endDateStr = formData.get("endDate")?.toString();
-  //|| !startDateStr || !endDateStr
-  // const startDate = new Date(startDateStr);
-  // const endDate = new Date(endDateStr);
-   
 
   await prisma.travel.update({ where:{id},
     data: {

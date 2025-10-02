@@ -12,12 +12,11 @@ export default async function UpdateTravel({
 }) {
   const session = await auth() as Session;
 
-  if (!session) { // && session?.user?.role !== 'admin'
+  if (!session) {
     redirect("/login");
   } 
 
   const { travelId } = await params;
-  // console.log('UpdateTravel-travelId: ', travelId);
   const travel = await prisma.travel.findFirst({
       where: { id: travelId },
       include: {

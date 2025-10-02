@@ -1,13 +1,10 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { createTravel } from "@/lib/actions/travel";
 import { cn } from "@/lib/utils";
-import { UploadButton } from "@/lib/upload-thing";
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import { MultipleImageUploadButton } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { X } from "lucide-react";
@@ -154,7 +151,7 @@ export default function Content() {
             {coverImagesUrl.length > 0 && (
                 <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {coverImagesUrl.map((imageUrl, index) => (
-                    <div className="relative group">
+                    <div className="relative group" key={index}>
                       <Image
                         src={imageUrl || ''}
                         alt={`imageProductUrl`}

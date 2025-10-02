@@ -1,4 +1,4 @@
-import { auth, type Session, type User } from "@/auth";
+import { auth, type Session } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import Content from "./content";
 

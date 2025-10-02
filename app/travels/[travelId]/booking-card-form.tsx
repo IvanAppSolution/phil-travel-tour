@@ -11,8 +11,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import { CalendarIcon, UserRound, Baby, UsersRound, Mail, Phone, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CustomerInq } from "@/lib/types";
+import { Travel } from "@/prisma/generated/prisma";
 
-export default function BookingCardForm({ customerInq, updateTravelCost, travel }: { customerInq: any, updateTravelCost:any, travel: any }) {
+export default function BookingCardForm({ customerInq, updateTravelCost, travel }: { customerInq: CustomerInq, updateTravelCost: (numAdults: number, numChildren: number, pricePerPerson: number) => void, travel: Travel }) {
  
     // Calendar variables
   const [open, setOpen] = React.useState(false)

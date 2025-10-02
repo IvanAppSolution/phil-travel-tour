@@ -1,7 +1,7 @@
-import { auth } from "@/auth";
+import { auth, Session } from "@/auth";
 import DetailContent from "./detail-content";
 import { prisma } from "@/lib/prisma";
-import { Session } from "next-auth";
+ 
 
 export default async function TravelDetail({
   params,
@@ -10,7 +10,7 @@ export default async function TravelDetail({
 }) {
   const { travelId } = await params;
 
-  const session = auth() as Promise<Session | null>;
+  const session = await auth() as Session | null;
 
   // if (!session) {
   //   return <div> Please sign in.</div>;
@@ -27,5 +27,5 @@ export default async function TravelDetail({
     },
   });
 
-  return <DetailContent travelPromise={travelPromise} sessionPromise={session} />;
+  return <DetailContent travelPromise={travelPromise} session={session} />;
 }

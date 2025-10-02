@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { UTFiles } from "uploadthing/server";
-import Resizer from "react-image-file-resizer";
+// import Resizer from "react-image-file-resizer";
 
 const f = createUploadthing();
 
@@ -20,7 +20,7 @@ export const ourFileRouter = {
     },
   })
     // Set permissions and file types for this FileRoute
-    .middleware(async ({ req }) => {
+    .middleware(async () => {
       // This code runs on your server before upload
       const session = await auth();
 
@@ -47,7 +47,7 @@ export const ourFileRouter = {
       maxFileCount: 10
     }
   })
-    .middleware(async ({ req, files }) => {
+    .middleware(async ({ files }) => {
       // This code runs on your server before upload
       const session = await auth();
 
@@ -75,46 +75,46 @@ export const ourFileRouter = {
 
 export type OurFileRouter = typeof ourFileRouter;
 
-async function handleImageUpload (event:any) {
-  try {
-    const file = event.target.files[0];
-    const resizedImageUri = await resizeFile300(file);
-    // console.log(resizedImageUri); // Use the resized image URI
-  } catch (err) {
-    console.error(err);
-  }
-};
+// async function handleImageUpload (event:any) {
+//   try {
+//     const file = event.target.files[0];
+//     const resizedImageUri = await resizeFile300(file);
+//     // console.log(resizedImageUri); // Use the resized image URI
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
-function resizeFile300 (file: File) {
-  new Promise((resolve) => {
-    Resizer.imageFileResizer(
-      file,        // The image file to resize
-      300,         // maxWidth
-      300,         // maxHeight
-      "JPEG",      // compressFormat (e.g., "JPEG", "PNG", "WEBP")
-      80,         // quality (0-100)
-      0,           // rotation
-      (uri) => {   // Callback function with the resized image URI
-        resolve(uri);
-      },
-      "base64"     // outputType (e.g., "base64", "blob")
-    );
-  })
-};
+// function resizeFile300 (file: File) {
+//   new Promise((resolve) => {
+//     Resizer.imageFileResizer(
+//       file,        // The image file to resize
+//       300,         // maxWidth
+//       300,         // maxHeight
+//       "JPEG",      // compressFormat (e.g., "JPEG", "PNG", "WEBP")
+//       80,         // quality (0-100)
+//       0,           // rotation
+//       (uri) => {   // Callback function with the resized image URI
+//         resolve(uri);
+//       },
+//       "base64"     // outputType (e.g., "base64", "blob")
+//     );
+//   })
+// };
 
-function resizeFile600 (file: File) {
-    new Promise((resolve) => {
-      Resizer.imageFileResizer(
-        file,        // The image file to resize
-        600,         // maxWidth
-        600,         // maxHeight
-        "JPEG",      // compressFormat (e.g., "JPEG", "PNG", "WEBP")
-        80,         // quality (0-100)
-        0,           // rotation
-        (uri) => {   // Callback function with the resized image URI
-          resolve(uri);
-        },
-        "base64"     // outputType (e.g., "base64", "blob")
-      );
-    })
-  };
+// function resizeFile600 (file: File) {
+//     new Promise((resolve) => {
+//       Resizer.imageFileResizer(
+//         file,        // The image file to resize
+//         600,         // maxWidth
+//         600,         // maxHeight
+//         "JPEG",      // compressFormat (e.g., "JPEG", "PNG", "WEBP")
+//         80,         // quality (0-100)
+//         0,           // rotation
+//         (uri) => {   // Callback function with the resized image URI
+//           resolve(uri);
+//         },
+//         "base64"     // outputType (e.g., "base64", "blob")
+//       );
+//     })
+//   };

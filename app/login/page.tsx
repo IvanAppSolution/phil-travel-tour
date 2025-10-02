@@ -1,18 +1,13 @@
-import { FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { SocialLoginButtons } from "./social-login-buttons";
-// import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
 export default async function LoginPage() {
-  // const session = await getSession();
   const session = await auth();
 
   if (session) redirect("/home");

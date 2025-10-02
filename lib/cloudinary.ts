@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const cloudinary = require('cloudinary').v2
+import { v2 as cloudinary } from 'cloudinary';
 
 const connectCloudinary = async (): Promise<void> => {
     cloudinary.config({

@@ -1,15 +1,13 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { createUpdateTrip } from "@/lib/actions/trip";
 import { cn } from "@/lib/utils";
 import { UploadButton } from "@/lib/upload-thing";
-import { use, useEffect, useState, useTransition } from "react";
+import { use, useEffect, useState, useTransition, useMemo } from "react";
 import Image from "next/image";
-import { Travel, Trip } from "@/prisma/generated/prisma";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useParams } from "next/navigation";
+import { Trip } from "@/prisma/generated/prisma";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 
@@ -26,27 +24,31 @@ interface ContentProps {
 export default function NewContent({ travelPromise, tripPromise, travelId } : ContentProps) {
   const [isPending, startTransition] = useTransition();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const travels: TravelName[] = use(travelPromise) || [];
-  const trip = use(tripPromise);
   const [selectedTravelId, setSelectedTravelId] = useState('');
-    const [isCreateMode, setIsCreateMode] = useState(false);
-  // const [selectedTravelTitle, setSelectedTravelTitle] = useState('');
-  console.log("travels:", travels);
-  console.log("trip:", trip);
-  // const { travelId: paramTravelId } = useParams();
+  const [isCreateMode, setIsCreateMode] = useState(false);
+  
+  const trip = use(tripPromise);
+  const rawTravels = use(travelPromise);
+  const travels = useMemo(() => rawTravels || [], [rawTravels]);
 
   useEffect(() => {
-    // console.log("paramTravelId:", travelId);
-    // console.log("travels:", travels);
     if (travelId && travels && travels.length > 0) {
-      const selectedTravel = travels.find(travel => travel.id === travelId);
+      const selectedTravel = travels.find((travel: TravelName) => travel.id === travelId);
       if (selectedTravel) {
-        console.log("Found travel for paramTravelId:", selectedTravel.id);
         setSelectedTravelId(selectedTravel.id);
-        // setSelectedTravelTitle(selectedTravel.title);
       }
     }
   }, [travelId, travels]);
+
+  useEffect(() => {
+    if (trip) {
+      setIsCreateMode(false);
+      setImageUrl(trip.imageUrl || null);
+      setSelectedTravelId(trip.travelId);
+    } else {
+      setIsCreateMode(true);
+    }
+  }, [trip]);
 
   return (
     <div className="max-w-lg mx-auto mt-10">
@@ -80,7 +82,7 @@ export default function NewContent({ travelPromise, tripPromise, travelId } : Co
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {travels.length && travels.map((travel) => (
+                    {travels && travels.length > 0 && travels.map((travel: TravelName) => (
                       <SelectItem key={travel.id} value={travel.id} >
                         {travel.title}
                       </SelectItem>
@@ -133,35 +135,6 @@ export default function NewContent({ travelPromise, tripPromise, travelId } : Co
                 required
               />
             </div>
-            {/* <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Start Date
-                </label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className={cn(
-                    "w-full border border-gray-300 px-3 py-2",
-                    "rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  )}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {" "}
-                  End Date
-                </label>
-                <input
-                  type="date"
-                  name="endDate"
-                  className={cn(
-                    "w-full border border-gray-300 px-3 py-2",
-                    "rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  )}
-                />
-              </div>
-            </div> */}
             
             <div>
               <label> Trip Image</label>

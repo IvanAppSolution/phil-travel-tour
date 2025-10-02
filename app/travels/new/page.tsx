@@ -3,10 +3,9 @@ import { redirect } from "next/navigation";
 import Content from "./new-content";
 
 export default async function NewTravel() {
-  const session = await auth() as Session;
-  // console.log('NewTrip-session: ', session);
+  const session = await auth() as Session | null;
 
-  if (!session && session?.user?.role !== 'admin') {
+  if (!session) {
     redirect("/login");
   } 
 

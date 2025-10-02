@@ -15,12 +15,18 @@ export async function getCountryFromCoordinates(
   const data = await response.json();
 
   const result = data.results[0];
-  const countryComponent = result.address_components.find((component: any) =>
-    component.types.includes("country")
-  );
+  interface AddressComponent {
+    long_name: string;
+    short_name: string;
+    types: string[];
+  }
+
+    const countryComponent = result.address_components.find(
+      (component: AddressComponent) => component.types.includes("country")
+    );
 
   return {
-    country: countryComponent.long_name || "Unknown",
+    country: countryComponent?.long_name || "Unknown",
     formattedAddress: result.formatted_address,
   };
 }

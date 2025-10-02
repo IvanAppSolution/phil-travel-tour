@@ -1,21 +1,19 @@
 "use client";
-
 import { Location, Travel, Trip } from "@/prisma/generated/prisma";
 import Image from "next/image";
-import {  MapPin, Pen, XIcon, MapPinPlus } from "lucide-react";
+import {  MapPin, Pen, MapPinPlus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { use, useEffect, useRef, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Map from "./map";
 import { CalendarIcon } from "lucide-react"
-import { Session } from "@/prisma/generated/prisma";
 import * as React from "react"
 import type { Photo } from "react-photo-album";
-import { fa } from "zod/v4/locales";
 import { CustomerInq } from "@/lib/types";
 import BookingCardForm from "./booking-card-form";
 import CoverImageGallery from "./cover-image-gallery";
+import { Session } from "@/auth";
 
 export type TravelWithTripWithLocation = Travel & {
   trips: (Trip & {
@@ -25,16 +23,12 @@ export type TravelWithTripWithLocation = Travel & {
 
 interface ContentProps {
   travelPromise: Promise<TravelWithTripWithLocation | null>;
-  sessionPromise: Promise<Session | null>;
+  session: Session | null;
 }
 
-
-
-
-export default function DetailContent({ travelPromise, sessionPromise }: ContentProps) {
+export default function DetailContent({ travelPromise, session }: ContentProps) {
   const [activeTab, setActiveTab] = useState("overview");
-  const travel = use(travelPromise);
-  const session = use(sessionPromise) as Session | null;
+  const travel = use(travelPromise) as TravelWithTripWithLocation | null;
   const [locations, setLocations] = useState<Location[]>([]);
   const [coverPhotos, setCoverPhotos] = useState<Photo[]>([]);
 
@@ -62,45 +56,37 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
       travelCost: adultCost + childCost,
     });
   }
- 
 
+
+  useEffect(() => {
+    if (!travel) return;
+
+    // Initialize locations
+    const allLocations = travel.trips.flatMap((trip) => trip.locations);
+    setLocations(allLocations);
+
+    // Initialize cover photos
+    if (travel.coverImagesUrl.length) {
+      const photos = travel.coverImagesUrl.map((url, i) => {
+        let width = 200;
+        let height = 133;
+
+        if (i % 5 === 0 || i % 5 === 1) {
+          width = 400;
+          height = 233;
+        }
+
+        return { src: url, width, height } as Photo;
+      });
+
+      setCoverPhotos(photos);
+    }
+  }, [travel]);
 
   if (!travel) {
     return <div> Travel not found.</div>;
   }
 
-  useEffect(() => {
-    const allLocations = travel.trips.flatMap((trip) => trip.locations);
-    setLocations(allLocations);
-    initCoverPhotos();
-    
-  }, [travel]);
-
-  function initCoverPhotos() {
-    if (travel && travel.coverImagesUrl.length) {
-      let width = 800;
-      let height = 400; 
-      const photos = travel.coverImagesUrl.map((url, i) => {
-
-        if (i % 5 === 0 || i % 5 === 1) {
-          width = 400;
-          height = 233; 
-        } else {
-          width = 200;
-          height = 133; 
-        }   
-
-        return { src: url, width, height } as Photo;
-      });
-
-      setCoverPhotos(photos);      
-    }
-
-  }
-
-  
-  
- 
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
@@ -142,34 +128,25 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
                   <p className="text-gray-500 mt-2">{travel.subTitle}</p>
                   <p className="text-gray-500 mt-1 flex"> <CalendarIcon className="h-5 w-5 mr-1" /> {travel.noOfTravelDays}</p>
                 </div>
-                
                 <div className="my-4 text-gray-600 leading-relaxed mr-4">
                   {travel.description}
                 </div>
-
-              
                 <div className="my-6">
-                  <h3 className="text-lg font-medium mb-2">Included Trips
+                  <h3 className="text-xl font-semibold mb-2">Itinerary
                   { session && session.user?.role === "admin" ? <Link className="" href={`/trips/0?travelId=${travel.id}`}><Button className="ml-3 w-24" size="icon"  variant="outline"><MapPinPlus className="h-5 w-5" />Add Trip </Button></Link> : false }
                   </h3>
-                  <ul className="list-disc pl-5">
+                  <ul className="space-y-2">
                     {travel && travel.trips.map(trip => (
                       <li key={trip.id} className="mb-2">
-                        <span className="font-medium inline-flex items-center justify-center">{trip.title}&nbsp;{ session && session.user.role === "admin" ? <Link className="" href={`/trips/${trip.id}?travelId=${travel.id}`}> <Pen className="h-4 w-4" /></Link> : false }</span>  
-                        <div>                          
-                        <div className="flex items-start text-sm text-gray-500 mt-1">  
-                          <MapPin className="h-5 w-5 mr-1 text-gray-500" />                         
-                          {trip.locations.length && trip.locations.map((loc) => (
-                            <span key={loc.id}>{loc.locationTitle},</span>
-                          )) }
+                        <div className="flex items-center">
+                          <MapPin className="h-5 w-5 mr-1 text-gray-500 inline" />
+                          <span className="font-medium inline-flex items-center justify-center">{trip.title}&nbsp;{ session && session.user.role === "admin" ? <Link className="" href={`/trips/${trip.id}?travelId=${travel.id}`}> <Pen className="h-4 w-4" /></Link> : false }</span>                          
                         </div>
-                        </div>
+                        
                       </li>
                     ))}
                   </ul>
                 </div>
-              
-
                 <div className="my-6 h-72 rounded-lg overflow-hidden shadow">
                   <Map itineraries={locations} />
                 </div>
@@ -179,10 +156,8 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
               <div>
                     {/* Booking card form */}
                   <BookingCardForm customerInq={customerInq} updateTravelCost={updateTravelCost} travel={travel} />                  
-              </div>
-              
-            </div> 
-            
+              </div>              
+            </div>
           </TabsContent>
           
           {/* ITINERARY */}
@@ -243,9 +218,7 @@ export default function DetailContent({ travelPromise, sessionPromise }: Content
         <Link href={`/travels`}>
           <Button> Back to Travels</Button>
         </Link>
-      </div>
-
-      
+      </div>      
     </div>
   );
 }
