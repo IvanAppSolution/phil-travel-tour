@@ -43,7 +43,7 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
     }
   }, [travel]);
 
-    if (!travel) {
+  if (!travel) {
     return <div>No travel data found.</div>;
   }
 
@@ -73,7 +73,6 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
               />
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                {" "}
                 Title
               </label>
               <Input
@@ -176,7 +175,7 @@ export default function UpdateContent({ travel }: {travel: Travel | null}) {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Cover Photos (up to 10 Photos)
+                Cover Photos (up to 30 Photos)
                 <ImageUploader onUploadSuccess={handleCoverImagesUploaded} />
               </label>
               {coverImagesUrl.length > 0 && (
