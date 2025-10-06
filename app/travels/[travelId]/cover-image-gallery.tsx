@@ -77,11 +77,8 @@ export default function CoverImageGallery({ travel, coverPhotos = []  }: { trave
     if (travel && travel.coverImagesUrl.length) {
       const photos = travel.coverImagesUrl.map((url) => {
       const imageId = url.split("/").pop()?.split(".")[0] || "";
-      const fullSizeUrl = cld.image(imageId)
-                          .quality('auto')
-                          .format('auto')
-                          // .resize(scale().width(100))
-                          .toURL();
+      const fullSizeUrl = cld.image(imageId).toURL();
+                          // .quality('auto').format('auto').resize(scale().width(100)).toURL();                      
         return { original: fullSizeUrl };
       });
 
